@@ -25,7 +25,7 @@ jar {
 }
 
 heroku {
-    appName = 'my-socket-chat'
+    appName = 'my-socket-chat' 
 	buildpack = 'https://github.com/Kangkrkr/heroku.git'
 
     //get this from heroku
