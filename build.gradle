@@ -4,7 +4,9 @@ buildscript {
 	}
 	repositories {
 		mavenCentral()
-        mavenRepo name: 'Bintray Gradle Plugins', url: 'http://dl.bintray.com/vermeulen-mp/gradle-plugins'
+		maven{
+			url 'http://dl.bintray.com/vermeulen-mp/gradle-plugins'
+		}
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
