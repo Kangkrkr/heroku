@@ -26,14 +26,14 @@ public class SocketHandler extends TextWebSocketHandler{
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		logger.info("connection established.");
 		if(sessions.add(session)){
-			logger.info(session.getRemoteAddress() + "?˜ session?´ ? •?ƒ ì¶”ê? ?˜?—ˆ?Šµ?‹ˆ?‹¤.");
+			logger.info(session.getRemoteAddress() + "ì˜ sessionì´ ì„±ê³µì ìœ¼ë¡œ ì €ì¥ë˜ì—ˆìŠµë‹ˆë‹¤..");
 		}
 	}
 	
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		if(sessions.remove(session))
-			logger.info(session.getRemoteAddress() + "?˜ session?´ ? •?ƒ ? œê±°ë˜?—ˆ?Šµ?‹ˆ?‹¤.");
+			logger.info(session.getRemoteAddress() + "ì˜ sessionì´ ì„±ê³µì ìœ¼ë¡œ ì œê±°ë˜ì—ˆìŠµë‹ˆë‹¤..");
 	}
 	
 	@Override
@@ -46,7 +46,7 @@ public class SocketHandler extends TextWebSocketHandler{
 		}
 	}
 
-	// trueë¥? ë°˜í™˜?•˜ë©? ?° ?‚¬?´ì¦ˆì˜ ë©”ì‹œì§?(partial message)?˜ ? „?†¡?´ ê°??Š¥?•´ì§„ë‹¤.
+	// trueì‹œì— ë°˜í™˜ì‹œ í° ìš©ëŸ‰ì˜ ë©”ì‹œì§€(partial message)ì˜ ìˆ˜ì‹ ì´ ê°€ëŠ¥í•´ì§„ë‹¤.
 	@Override
 	public boolean supportsPartialMessages() {
 		return true;
