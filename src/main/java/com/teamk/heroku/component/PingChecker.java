@@ -19,7 +19,7 @@ public class PingChecker {
 		return new RestTemplate();
 	}
 	
-	@Scheduled(fixedDelay = 1000 * 60)
+	@Scheduled(fixedDelay = 1000 * 60 * 5)
 	public void sendPing(){
 		try{
 			long start = System.currentTimeMillis();
