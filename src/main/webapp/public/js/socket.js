@@ -1,5 +1,5 @@
 function socketInit() {
-	sock = new WebSocket('ws://' + location.hostname + ':8080/websocket');
+	sock = new WebSocket('wss://' + location.hostname + ':18110/websocket');
 
 	sock.onopen = function(e) {
 		console.log('opened.');
