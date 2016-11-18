@@ -42,8 +42,8 @@ public class HibernateConfig {
 	@Bean
 	public Properties hibernateProperties(){
 		Properties properties = new Properties();
-		String[] propKeys = {"hibernate.dialect", "hibernate.hbm2ddl.auto", 
-							 "hibernate.show_sql", "hibernate.enable_lazy_load_no_trans"};
+		String[] propKeys = {"spring.jpa.database-platform", "spring.jpa.hibernate.ddl-auto", 
+							 "spring.jpa.show-sql", "hibernate.enable_lazy_load_no_trans"};
 
 		for(String key : propKeys) {
 			properties.put(key, env.getProperty(key));

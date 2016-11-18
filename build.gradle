@@ -4,33 +4,21 @@ buildscript {
 	}
 	repositories {
 		mavenCentral()
-		maven{
-			url 'http://dl.bintray.com/vermeulen-mp/gradle-plugins'
-		}
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-		classpath 'com.wiredforcode:gradle-heroku-plugin:1.0.0'
 	}
 }
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
-apply plugin: 'heroku'
 
 jar {
 	baseName = 'heroku'
 	version = '0.0.1'
 }
 
-heroku {
-    appName = 'my-socket-chat' 
-	buildpack = 'https://github.com/Kangkrkr/heroku.git'
-
-    //get this from heroku
-    apiKey = '835bf6e2-0c8b-4644-9553-965e9bc037e9'
-}
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
