@@ -48,10 +48,9 @@ function send() {
 			sock.send(message);
 			sendEnable = false;
 			
-			setTimeout(() => {
+			setTimeout(function(){
 				sendEnable = true;
 			}, 1500);
-			
 		},
 		error : function(err) {
 			console.log(err);

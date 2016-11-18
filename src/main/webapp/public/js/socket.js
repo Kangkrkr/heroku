@@ -1,5 +1,5 @@
 function socketInit() {
-	sock = new SockJS('ws://' + location.host + '/websocket');
+	sock = new SockJS("http://"+location.host+"/websocket");
 
 	sock.onopen = function(e) {
 		console.log('opened.');
