@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import com.teamk.heroku.domain.Member;
 import com.teamk.heroku.service.MemberService;
 
+import lombok.Getter;
+
 @Service
 public class LoginUserDetaisService implements UserDetailsService {
 
@@ -24,6 +26,7 @@ public class LoginUserDetaisService implements UserDetailsService {
 		return new LoginUserDetails(memberService.findByMemberEmail(email));
 	}
 	
+	@Getter
 	class LoginUserDetails extends User {
 		private Member member = null;
 		
