@@ -15,7 +15,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry reg) {
-		reg.addHandler(websocketHandler(), "/websocket");
+		reg.addHandler(websocketHandler(), "/websocket").withSockJS();
 	}
 	
 	@Bean
