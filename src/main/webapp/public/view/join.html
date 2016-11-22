@@ -1,11 +1,67 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
 <title>Insert title here</title>
+<script src="/lib/jquery/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+<link rel="stylesheet" href="/public/stylesheet/join-page.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
 </head>
 <body>
-<h1>회원가입 페이지입니다.</h1>
-<a href="/loin">로그인 페이지로</a>
+<div class="row login container valign">
+	<h1 class="center-align">회원가입</h1>
+
+	<form class="col s8 offset-s2" id="join-form" name="join-form">
+		<div class="row">
+			<div class="input-field row">
+	          <input id="email" type="email" name="email" class="validate">
+	          <label for="email">Email 주소를 입력하세요.</label>
+	        </div>
+		</div>
+		<div class="row">
+        <div class="input-field row">
+            <input id="password" type="password" name="password" class="validate">
+            <label for="password">Password 를 입력하세요.</label>
+          </div>
+        </div>
+        <div class="input-field row">
+            <input id="name" type="text" name="name" class="validate">
+            <label for="name">이름을 입력하세요.</label>
+        </div>
+        <div class="input-field row">
+            <input id="nickname" type="text" name="nickname" class="validate">
+            <label for="nickname">별명을 설정하세요.</label>
+        </div>
+		<div class="row">
+			<a class="col s10 offset-s1 waves-effect waves-light btn join">가입하기</a>
+			<a class="col s10 offset-s1 waves-effect waves-light btn login" href="/login">로그인 페이지로</a>
+		</div>
+	</form>
+</div>
+<script>
+	$('.btn.join').click(function(){
+		var $joinForm = $('#join-form');
+		$joinForm.submit(function(){
+			return false;
+		});
+		
+		var params = $joinForm.serialize();
+		$.ajax({
+			url : '/rest/member/join',
+			type : 'POST',
+			data : params,
+			success : function(result){
+				if(result){
+					alert(result);
+					location.href="/login";
+				}
+			},
+			error : function(err){
+				alert(err.responseJSON);
+			}
+		});
+	});
+</script>
 </body>
 </html>

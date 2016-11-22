@@ -14,7 +14,7 @@ import lombok.Setter;
 
 @Entity
 @Table
-@Getter
+@Getter 
 @Setter
 @NoArgsConstructor
 public class Authority implements GrantedAuthority {

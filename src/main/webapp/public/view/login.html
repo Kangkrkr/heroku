@@ -1,11 +1,125 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
 <title>Insert title here</title>
+<script src="/lib/jquery/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+<link rel="stylesheet" href="/public/stylesheet/login-page.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
 </head>
-<body>
-<h1>로그인 페이지입니다.</h1>
-<a href="/join">회원가입</a>
+<body class="valign-wrapper">
+	<div class="slider">
+		<ul class="slides">
+			<li><img src="http://lorempixel.com/580/250/nature/1">
+				<div class="caption center-align">
+					<h3>힘들다 힘들어</h3>
+					<h5 class="light grey-text text-lighten-3">으으 살려줘</h5>
+				</div></li>
+			<li><img src="http://lorempixel.com/580/250/nature/2">
+				<div class="caption left-align">
+					<h3>이제는 진짜</h3>
+					<h5 class="light grey-text text-lighten-3">자러가야지</h5>
+				</div></li>
+			<li><img src="http://lorempixel.com/580/250/nature/3">
+				<div class="caption right-align">
+					<h3>목도 아프다</h3>
+					<h5 class="light grey-text text-lighten-3">병원갔다 와야되는데</h5>
+				</div></li>
+			<li><img src="http://lorempixel.com/580/250/nature/4">
+				<div class="caption center-align">
+					<h3>프론트는 힘들어</h3>
+					<h5 class="light grey-text text-lighten-3">지옥이야 지옥</h5>
+				</div></li>
+		</ul>
+	</div>
+
+	<div class="row btn-container valign center-align">
+        <div class="col s12">
+			<a class="modal-trigger col s10 offset-s1 waves-effect waves-light btn open-modal-btn">로그인하기</a>
+			<a class="col s10 offset-s1 waves-effect waves-light btn join" href="/join">회원가입 페이지로</a>
+		</div>
+	</div>
+	
+	<!-- Modal Structure -->
+	<div id="login-modal" class="modal">
+		<div class="modal-content">
+			<div class="row login container valign center-align">
+				<form class="col s8 offset-s2" id="login-form" name="login-form">
+					<div class="row">
+						<div class="input-field col s12">
+				          <input id="email" type="email" name="email" class="validate" placeholder="이메일을 입력하세요.">
+				        </div>
+					</div>
+					<div class="row">
+			        <div class="input-field col s12">
+			            <input id="password" type="password" name="password" class="validate" placeholder="비밀번호를 입력하세요.">
+			          </div>
+			        </div>
+			        <div class="row">
+						<a class="col s10 offset-s1 waves-effect waves-light btn btn-login">로그인</a>
+						<a class="col s10 offset-s1 waves-effect waves-light btn btn-dismiss">취소</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<script>
+	$(document).ready(function(){
+		$('body').css({
+			'height' : $(document).height()+'px'
+		});
+		
+	    $('.slider').slider({full_width: true, height: $(document).height(), indicators: false});
+	    $('.btn-container').css({
+	    	'left': ($(window).width()/2 - $('.btn-container').width()/2)+'px'
+	    });
+	    
+	    $('.modal').modal({
+	    	dismissible: true,
+	        opacity: .3,
+	        in_duration: 300,
+	        out_duration: 300,
+	        starting_top: '10%',
+	        ending_top: '20%',
+	        ready: function(modal, trigger) {
+	        	
+	        },
+	        complete: function() { }
+	    });
+	 });
+
+	$('.open-modal-btn').click(function(){
+		$('.modal').modal('open');
+	});
+	
+	$('.btn-login').click(function(){
+		var $loginForm = $('#login-form');
+		$loginForm.submit(function(){
+			return false;
+		});
+		
+		var params = $loginForm.serialize();
+		$.ajax({
+			url : '/rest/member/login',
+			type : 'POST',
+			data : params,
+			success : function(result){
+				if(result){
+					alert(result);
+					location.href="/";
+				}
+			},
+			error : function(err){
+				alert(err.responseJSON);
+			}
+		});
+	});
+	
+	$('.btn-dismiss').click(function(){
+		$('.modal').modal('close');
+	});
+</script>
 </body>
 </html>

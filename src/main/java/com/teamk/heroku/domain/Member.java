@@ -3,21 +3,27 @@ package com.teamk.heroku.domain;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+ 
 @Entity
 @Table
 @Getter
@@ -35,8 +41,9 @@ public class Member {
 	private String email;
 	
 	@NotNull
-	@Size(min=6, max=20)
-	@Column(nullable = false)
+	@Size(min=8)
+	@Column(nullable = false, columnDefinition="password varchar(255)")
+	@JsonIgnore
 	private String password;
 	
 	@NotNull
@@ -49,6 +56,11 @@ public class Member {
 	@Column(nullable = false)
 	private String nickname;
 	
+	@OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonBackReference
+	private Set<Chat> chats = new HashSet<>();
+	
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "member_authority",
 			   joinColumns = {@JoinColumn(name="user_id")}, 
