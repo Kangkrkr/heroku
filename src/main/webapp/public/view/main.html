@@ -4,34 +4,48 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<link rel="stylesheet" href="/public/stylesheet/test.css">
+<link rel="stylesheet" href="/public/stylesheet/main-page.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
-<script src="/lib/jquery/jquery.js"></script>
-<script src="/lib/socketjs/sockjs-1.1.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
-<body onload="init();">
-	<div id="message-container" class="row">
-		<form id="form" class="col s10 offset-s1">
-			<div id="input-field" class="input-field">
-				<label id="message-label" for="message">메시지를 입력후 아래 버튼을 눌러보세요.</label>
-				<textarea id="message" class="materialize-textarea" ></textarea>
-				<a class="waves-effect waves-light btn col s8 offset-s2" onclick="send(this);">입력</a>
-			</div>
-			
-			<div id="chat-container" class="row">
-				<blockquote class="col s8 offset-s2">
-			      <h4>대화 목록</h4>
-			    </blockquote>
-				<div class="col s12 chat-list">
-				</div>
-			</div>
-		</form>
-	</div>
+<body ng-app="angular-app">
+	<nav>
+		<div class="nav-wrapper">
+			<a href="#" class="brand-logo">Buring Web</a>
+			<ul id="nav-mobile" class="right hide-on-med-and-down">
+				<li><a href="/#test1">구현예정1</a></li>
+				<li><a href="/#chat">채팅</a></li>
+				<li><a href="/logout">로그아웃</a></li>
+			</ul>
+		</div>
+	</nav>
 
-	<script type="text/javascript" src="/public/js/audio.js"></script>
-	<script type="text/javascript" src="/public/js/socket.js"></script>
-	<script type="text/javascript" src="/public/js/app.js"></script>
-	<script type="text/javascript" src="/public/js/calendar.js"></script>
-	<script type="text/javascript" src="/public/js/init.js"></script>
+	<div class="ng-view"></div>
+	
+	<script src="/lib/jquery/jquery.js"></script>
+	<script src="/lib/angular/angular.min.js"></script>
+	<script src="/lib/angular/angular-route.min.js"></script>
+	<script src="/lib/socketjs/sockjs-1.1.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+	<script src="/public/js/socket.js"></script>
+	<script src="/public/js/calendar.js"></script>
+	
+	<script>
+		var app = angular.module('angular-app', [ 'ngRoute' ]);
+
+		app.config(function($routeProvider, $locationProvider) {
+			$routeProvider.when("/test1", {
+				templateUrl : "/public/view/noplan.html"
+			}).when("/chat", {
+				templateUrl : "/public/view/test.html",
+				controller: "chatController"
+			});
+			
+			/*
+			$locationProvider.html5Mode({
+				enabled : true,
+				requireBase : false
+			});
+			*/
+		});
+	</script>
 </body>
 </html>

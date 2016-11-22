@@ -15,9 +15,8 @@ var chatItemCssHover = {
 };
 
 function init() {
-	audioInit();
 	socketInit();
 	
-	initBodySize();
+	//initBodySize();
 	addKeyUpEventToSendButton();
 };
