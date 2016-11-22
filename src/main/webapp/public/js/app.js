@@ -30,15 +30,15 @@ function send() {
 	}
 	
 	$.ajax({
-		url : '/chat/rest',
+		url : '/rest/chat',
 		type : 'POST',
 		data : {
 			content : message,
 			chatDate : new Date()
 		},
 		success : function(data) {
-			if(data.body){
-				alert(data.body);
+			if(data){
+				alert(data);
 				return;
 			}
 			
@@ -48,10 +48,9 @@ function send() {
 			sock.send(message);
 			sendEnable = false;
 			
-			setTimeout(() => {
+			setTimeout(function(){
 				sendEnable = true;
 			}, 1500);
-			
 		},
 		error : function(err) {
 			console.log(err);

@@ -1,0 +1,19 @@
+@CHARSET "UTF-8";
+
+.row a {
+	margin-bottom: 5px;
+	margin-top: 15px;
+}
+
+h1 {
+	color: white;
+}
+
+.slides h3, h5 {
+	color: rgba(255, 255, 255, 0.5);
+}
+
+.btn-container{
+	z-index: 10;
+	position: absolute;
+}

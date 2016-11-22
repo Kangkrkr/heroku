@@ -1,8 +1,9 @@
 package com.teamk.heroku.restful;
 
-import java.util.Date;
-
 import org.springframework.http.HttpStatus;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,13 +13,14 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class AjaxResponse<T> {
+	@JsonProperty
 	private T body;
-	private Date createdTime;
+	
+	@JsonIgnore
 	private HttpStatus status;
 	
 	public AjaxResponse(T message){
 		this.body = message;
-		this.createdTime = new Date();
 		this.status = HttpStatus.OK;
 	}
 	
@@ -27,5 +29,10 @@ public class AjaxResponse<T> {
 		ar.status = HttpStatus.OK;
 		
 		return ar;
+	}
+	
+	public AjaxResponse<?> setStatus(HttpStatus status){
+		this.status = status;
+		return this;
 	}
 }

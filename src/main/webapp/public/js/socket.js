@@ -1,14 +1,14 @@
 function socketInit() {
-	sock = new WebSocket('ws://' + location.hostname + ':8080/websocket');
+	sock = new SockJS("http://"+location.host+"/websocket");
 
 	sock.onopen = function(e) {
 		console.log('opened.');
 		$.ajax({
-			url : '/chat/rest',
+			url : '/rest/chat',
 			type : 'GET',
 			dataType : 'json',
 			success : function(data) {
-				$.each(data.body, function(idx, item) {
+				$.each(data, function(idx, item) {
 					appendDiv(item.content, getConvertedDate(item.chatDate));
 				});
 			},

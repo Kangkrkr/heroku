@@ -8,7 +8,6 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.socket.CloseStatus;
-import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
@@ -26,14 +25,14 @@ public class SocketHandler extends TextWebSocketHandler{
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		logger.info("connection established.");
 		if(sessions.add(session)){
-			logger.info(session.getRemoteAddress() + "?˜ session?´ ? •?ƒ ì¶”ê? ?˜?—ˆ?Šµ?‹ˆ?‹¤.");
+			logger.info(session.getRemoteAddress() + "ì˜ sessionì´ ì„±ê³µì ìœ¼ë¡œ ì €ì¥ë˜ì—ˆìŠµë‹ˆë‹¤..");
 		}
 	}
 	
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		if(sessions.remove(session))
-			logger.info(session.getRemoteAddress() + "?˜ session?´ ? •?ƒ ? œê±°ë˜?—ˆ?Šµ?‹ˆ?‹¤.");
+			logger.info(session.getRemoteAddress() + "ì˜ sessionì´ ì„±ê³µì ìœ¼ë¡œ ì œê±°ë˜ì—ˆìŠµë‹ˆë‹¤..");
 	}
 	
 	@Override
@@ -46,7 +45,7 @@ public class SocketHandler extends TextWebSocketHandler{
 		}
 	}
 
-	// trueë¥? ë°˜í™˜?•˜ë©? ?° ?‚¬?´ì¦ˆì˜ ë©”ì‹œì§?(partial message)?˜ ? „?†¡?´ ê°??Š¥?•´ì§„ë‹¤.
+	// trueì‹œì— ë°˜í™˜ì‹œ í° ìš©ëŸ‰ì˜ ë©”ì‹œì§€(partial message)ì˜ ìˆ˜ì‹ ì´ ê°€ëŠ¥í•´ì§„ë‹¤.
 	@Override
 	public boolean supportsPartialMessages() {
 		return true;
