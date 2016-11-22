@@ -41,7 +41,7 @@ public class MemberRestController {
 		Member member = memberService.findByMemberEmail(email);
 		
 		if(member == null)
-			return new ResponseEntity<String>("해당 사용자가 없습니다.", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<String>("해당 사용자를 찾을 수 없습니다.", HttpStatus.NOT_FOUND);
 		
 		if(!passwordEncoder.matches(password, member.getPassword()))
 			return new ResponseEntity<String>("비밀번호가 틀립니다.", HttpStatus.BAD_REQUEST);

@@ -1,0 +1,13 @@
+{
+  "ecmaVersion": 5,
+  "libs": [
+    "ecma5",
+    "ecma6",
+    "jquery"
+  ],
+  "plugins": {
+    "angular1": {
+      
+    }
+  }
+}
