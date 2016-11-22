@@ -10,8 +10,6 @@
 </head>
 <body>
 <div class="row login container valign">
-	<h1 class="center-align">회원가입</h1>
-
 	<form class="col s8 offset-s2" id="join-form" name="join-form">
 		<div class="row">
 			<div class="input-field row">
@@ -34,8 +32,8 @@
             <label for="nickname">별명을 설정하세요.</label>
         </div>
 		<div class="row">
-			<a class="col s10 offset-s1 waves-effect waves-light btn join">가입하기</a>
-			<a class="col s10 offset-s1 waves-effect waves-light btn login" href="/login">로그인 페이지로</a>
+			<a class="col s10 offset-s1 waves-effect waves-light btn join z-depth-3">가입하기</a>
+			<a class="col s10 offset-s1 waves-effect waves-light btn login z-depth-3" href="/login">로그인 페이지로</a>
 		</div>
 	</form>
 </div>
@@ -53,12 +51,13 @@
 			data : params,
 			success : function(result){
 				if(result){
-					alert(result);
+					Materialize.toast(result, 1500);
 					location.href="/login";
 				}
 			},
 			error : function(err){
-				alert(err.responseJSON);
+				//Materialize.toast(err.responseJSON, 1500);
+				Materialize.toast("가입도중 문제가 발생하였습니다.", 1500);
 			}
 		});
 	});

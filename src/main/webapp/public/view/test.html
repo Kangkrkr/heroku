@@ -5,33 +5,23 @@
 <title>Insert title here</title>
 </head>
 <link rel="stylesheet" href="/public/stylesheet/test.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
-<script src="/lib/jquery/jquery.js"></script>
-<script src="/lib/socketjs/sockjs-1.1.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
-<body onload="init();">
+<body>
 	<div id="message-container" class="row">
-		<form id="form" class="col s10 offset-s1">
+		<form id="form" class="col s6 offset-s3">
 			<div id="input-field" class="input-field">
-				<label id="message-label" for="message">메시지를 입력후 아래 버튼을 눌러보세요.</label>
+				<label id="message-label" for="message">방명록을 남겨보세요.</label>
 				<textarea id="message" class="materialize-textarea" ></textarea>
 				<a class="waves-effect waves-light btn col s8 offset-s2" onclick="send(this);">입력</a>
 			</div>
 			
 			<div id="chat-container" class="row">
-				<blockquote class="col s8 offset-s2">
-			      <h4>대화 목록</h4>
-			    </blockquote>
-				<div class="col s12 chat-list">
+				<!-- <blockquote class="col s8 offset-s2">
+			    <h4>목록</h4>
+			    </blockquote>  -->
+				<div class="row chat-list">
 				</div>
 			</div>
 		</form>
 	</div>
-
-	<script type="text/javascript" src="/public/js/audio.js"></script>
-	<script type="text/javascript" src="/public/js/socket.js"></script>
-	<script type="text/javascript" src="/public/js/app.js"></script>
-	<script type="text/javascript" src="/public/js/calendar.js"></script>
-	<script type="text/javascript" src="/public/js/init.js"></script>
 </body>
 </html>

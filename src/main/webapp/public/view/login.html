@@ -36,29 +36,31 @@
 
 	<div class="row btn-container valign center-align">
         <div class="col s12">
-			<a class="modal-trigger col s10 offset-s1 waves-effect waves-light btn open-modal-btn">로그인하기</a>
-			<a class="col s10 offset-s1 waves-effect waves-light btn join" href="/join">회원가입 페이지로</a>
+			<a class="modal-trigger col s12 waves-effect waves-light btn open-modal-btn z-depth-5">로그인하기</a>
+		</div>
+		<div class="col s12">
+			<a class="col s12 waves-effect waves-light btn join z-depth-5" href="/join">회원가입 페이지로</a>
 		</div>
 	</div>
 	
 	<!-- Modal Structure -->
-	<div id="login-modal" class="modal">
+	<div id="login-modal" class="modal z-depth-5 grey lighten-4">
 		<div class="modal-content">
 			<div class="row login container valign center-align">
-				<form class="col s8 offset-s2" id="login-form" name="login-form">
+				<form class="col m8 offset-m2" id="login-form" name="login-form">
 					<div class="row">
-						<div class="input-field col s12">
+						<div class="input-field col m12">
 				          <input id="email" type="email" name="email" class="validate" placeholder="이메일을 입력하세요.">
 				        </div>
 					</div>
 					<div class="row">
-			        <div class="input-field col s12">
+			        <div class="input-field col m12">
 			            <input id="password" type="password" name="password" class="validate" placeholder="비밀번호를 입력하세요.">
 			          </div>
 			        </div>
 			        <div class="row">
-						<a class="col s10 offset-s1 waves-effect waves-light btn btn-login">로그인</a>
-						<a class="col s10 offset-s1 waves-effect waves-light btn btn-dismiss">취소</a>
+						<a class="col s10 offset-s1 waves-effect waves-light btn btn-login z-depth-2">로그인</a>
+						<a class="col s10 offset-s1 waves-effect waves-light btn btn-dismiss z-depth-2">취소</a>
 					</div>
 				</form>
 			</div>
@@ -66,6 +68,8 @@
 	</div>
 	
 	<script>
+	var modalWasOpened = false;
+	
 	$(document).ready(function(){
 		$('body').css({
 			'height' : $(document).height()+'px'
@@ -78,13 +82,20 @@
 	    
 	    $('.modal').modal({
 	    	dismissible: true,
-	        opacity: .3,
-	        in_duration: 300,
-	        out_duration: 300,
-	        starting_top: '10%',
+	        opacity: .1,
+	        in_duration: 180,
+	        out_duration: 180,
+	        starting_top: '20%',
 	        ending_top: '20%',
 	        ready: function(modal, trigger) {
-	        	
+	        	if(!modalWasOpened){
+	        		$(modal).css({
+		        		'width' : $('.login.container').width(),
+		        		'transition' : '0.4s',
+		        		'border-radius' : '20px'
+		        	});
+	        		modalWasOpened = true;
+	        	}
 	        },
 	        complete: function() { }
 	    });
@@ -107,12 +118,14 @@
 			data : params,
 			success : function(result){
 				if(result){
-					alert(result);
-					location.href="/";
+					Materialize.toast(result, 1000);
+					setTimeout(function(){
+						location.href="/";
+					}, 1000);
 				}
 			},
 			error : function(err){
-				alert(err.responseJSON);
+				Materialize.toast(err.responseJSON, 1500);
 			}
 		});
 	});
