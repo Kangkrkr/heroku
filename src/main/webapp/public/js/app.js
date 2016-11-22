@@ -17,7 +17,7 @@ function addKeyUpEventToSendButton(){
 
 function send() {
 	if(!sendEnable){
-		alert("연속으로 메시지를 보낼 수 없습니다.");
+		Materialize.toast("연속으로 메시지를 보낼 수 없습니다.", 1500);
 		return;
 	}
 	
@@ -38,7 +38,7 @@ function send() {
 		},
 		success : function(data) {
 			if(data){
-				alert(data);
+				Materialize.toast(data, 1500);
 				return;
 			}
 			
@@ -61,7 +61,7 @@ function send() {
 function appendDiv(data, date) {
 
 	var $chatItem = document.createElement('div');
-	$($chatItem).addClass("chip tooltipped col s8 offset-s2 chat-item");
+	$($chatItem).addClass("chip tooltipped col s8 offset-s2 chat-item grey lighten-5 z-depth-2");
 	$($chatItem).attr('data-tooltip', date);
 	$($chatItem).text(data);
 	$($chatItem).css(chatItemCssOriginal);

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
+<title>불타는 웹 스터디</title>
+</head>
+<link rel="stylesheet" href="/public/stylesheet/main-page.css">
+<link rel="stylesheet" href="/public/stylesheet/test.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+<script src="/lib/jquery/jquery.js"></script>
+<script src="/lib/angular/angular.min.js"></script>
+<script src="/lib/angular/angular-route.min.js"></script>
+<script src="/lib/socketjs/sockjs-1.1.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+<script type="text/javascript" src="/public/js/socket.js"></script>
+<script type="text/javascript" src="/public/js/app.js"></script>
+<script type="text/javascript" src="/public/js/calendar.js"></script>
+<script type="text/javascript" src="/public/js/init.js"></script>
+<body ng-app="angular-app">
+	<header>
+		<nav>
+			<div class="nav-wrapper">
+				<a href="#" class="brand-logo">Burning Web</a>
+				<a href="#" data-activates="mobile-demo" class="button-collapse"><i class="large material-icons">insert_chart</i></a>
+				<ul id="nav-mobile" class="right hide-on-med-and-down">
+					<li><a href="/#post">구현예정</a></li>
+					<li><a href="/#chat">방명록</a></li>
+					<li><a href="/logout">로그아웃</a></li>
+				</ul>
+				<ul class="side-nav" id="mobile-demo">
+			        <li><a href="/#post">구현예정</a></li>
+					<li><a href="/#chat">방명록</a></li>
+					<li><a href="/logout">로그아웃</a></li>
+	      		</ul>
+			</div>
+		</nav>
+	</header>
+
+	<main>
+		<div class="ng-view"></div>
+	</main>
+
+	<footer class="page-footer">
+		<div class="container">
+			<div class="row">
+				<div class="col l6 s12">
+					<h5 class="white-text">불타는 스터디</h5>
+					<p class="grey-text text-lighten-4">포트폴리오용 사이트입니다.</p>
+				</div>
+				<div class="col l4 offset-l2 s12">
+					<h5 class="white-text">스터디원</h5>
+					<ul>
+						<li><a class="grey-text text-lighten-3" href="#!">팀장 강승윤</a></li>
+						<li><a class="grey-text text-lighten-3" href="#!">부팀장 채희동</a></li>
+						<li><a class="grey-text text-lighten-3" href="#!">창현이형</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="footer-copyright">
+			<div class="container">© 2016 Copyright Reserved 
+				<a class="grey-text text-lighten-4 right" target="_blank" href="https://www.facebook.com/kangkrkr">페이스북</a>
+			</div>
+		</div>
+	</footer>
+
+
+	<script>
+		$(document).ready(function() {
+			$(".button-collapse").sideNav();
+		});
+
+		var app = angular.module('angular-app', [ 'ngRoute' ]);
+
+		app.config(function($routeProvider, $locationProvider) {
+			$routeProvider.when("/post", {
+				templateUrl : "/public/view/post.html"
+			}).when("/chat", {
+				templateUrl : "/public/view/test.html",
+				controller: "chatController"
+			});
+
+			/*
+			$locationProvider.html5Mode({
+				enabled : true,
+				requireBase : false
+			});
+			 */
+		});
+		
+		app.controller('chatController', function($scope){
+			console.log($(window).height());
+			$('body').height($(window).height());
+			init();
+		});
+		
+		app.directive('main', function(){
+			return {
+				restrict: "E",
+				link: function(s, e, a, c){
+					$(e[0]).css({
+						'height' : $(window).height() - $('header').height() - $('.page-footer').height()
+					});
+				}
+			};
+		});
+		
+		app.directive('pageFooter', function(){
+			return {
+				restrict: "C",
+				link: function(s, e, a, c){
+					$(e[0]).css({
+					});
+				}
+			};
+		});
+	</script>
+</body>
+</html>
