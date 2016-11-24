@@ -1,6 +1,8 @@
 package com.teamk.heroku.domain;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -59,6 +61,10 @@ public class Member {
 	@OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonBackReference
 	private Set<Chat> chats = new HashSet<>();
+
+	@OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonBackReference
+	private List<Post> posts = new ArrayList<>();
 	
 	@JsonIgnore
 	@ManyToMany
@@ -66,4 +72,10 @@ public class Member {
 			   joinColumns = {@JoinColumn(name="user_id")}, 
 			   inverseJoinColumns = {@JoinColumn(name="authority_id")})
 	private Set<Authority> authorities = new HashSet<>();
+	
+	public void addItem(Post post){
+		if(posts != null && post != null){
+			posts.add(post);
+		}
+	}
 }
