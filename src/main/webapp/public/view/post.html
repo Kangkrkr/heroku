@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="/public/stylesheet/post-page.css">
 </head>
@@ -20,10 +20,10 @@
 	</div>
 	
 	<!-- Modal Structure -->
-	<div id="post-modal" class="modal z-depth-5 grey lighten-4">
+	<div id="post-modal row" class="modal z-depth-5 grey lighten-4">
 		<div class="row modal-content">
 			<div class="row valign center-align">
-				<form id="post-form" name="post-form" method="post" enctype="multipart/form-data">
+				<form id="post-form" class="row" name="post-form" method="post" enctype="multipart/form-data">
 					<div class="row title-container">
 						<div class="input-field col m8 offset-m2">
 				          <input id="title" type="text" name="title" class="center-align" placeholder="제목">
@@ -36,12 +36,12 @@
 				</form>
 			</div>
 		</div>
-		<div class="modal-footer">
-			<a class="modal-action modal-close waves-effect waves-green btn-flat complete">완료</a>
-			<a class="modal-action waves-effect waves-green btn-flat add-hr">구분선추가</a>
-			<a class="modal-action waves-effect waves-green btn-flat add-image">이미지추가</a>
-			<input type="file" accept="image/*" capture="camera" onchange="getThumbnailPrivew(this)" hidden="true"/>
-			<a class="modal-action waves-effect waves-green btn-flat add-content">글추가</a>
+		<div class="row modal-footer ">
+			<a class="col s3 center-align modal-action modal-close waves-effect waves-green btn-flat complete">완료</a>
+			<a class="col s3 center-align modal-action waves-effect waves-green btn-flat add-hr">구분선추가</a>
+			<a class="col s3 center-align modal-action waves-effect waves-green btn-flat add-image">이미지추가</a>
+			<input class="col s3" type="file" accept="image/*" onchange="getThumbnailPrivew(this)" hidden="true"/>
+			<a class="col s3 center-align modal-action waves-effect waves-green btn-flat add-content">글추가</a>
 		</div>
 	</div>
 
@@ -56,7 +56,6 @@
 				ending_top : '2%',
 				ready : function(modal, trigger) {
 					$(modal).css({
-						'width' : 1000+'px',
 						'height' : $(window).height() - 30 +'px'
 					});
 					
@@ -77,7 +76,7 @@
 							'name' : 'content',
 							'placeholder' : '내용을 입력하세요.'
 						});
-						$($textarea).addClass("row materialize-textarea validate center-align");
+						$($textarea).addClass("col s12 materialize-textarea validate center-align");
 						$($div).append($textarea);
 						addMouseHoverEventOnElement($div);
 						$('.item-container').append($div);
@@ -107,7 +106,7 @@
 		
 		function createDivision(){
 			var $div = document.createElement('div');
-			$($div).addClass('item-wrapper');
+			$($div).addClass('row item-wrapper');
 			$($div).css({
 				'position' : 'relative',
 				'margin-bottom' : '5px'
@@ -162,7 +161,7 @@
 		        reader.onload = function (e) {
 		            $($preview).css('display', '');
 		            //$target.css('background-image', 'url(\"' + e.target.result + '\")'); // 배경으로 지정시
-		            $($preview).append('<img class="image-preview" src="' + e.target.result + '" border="0" width="300" height="250" alt="" />');
+		            $($preview).append('<img class="col s10 offset-s1 m6 offset-m3 image-preview" src="' + e.target.result + '" border="0" height="220" alt="" />');
 		            $('.item-container').append($preview);
 		        }
 		        reader.readAsDataURL(html.files[0]);
