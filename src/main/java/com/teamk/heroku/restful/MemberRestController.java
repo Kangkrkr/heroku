@@ -22,8 +22,9 @@ import com.teamk.heroku.domain.Member;
 import com.teamk.heroku.service.AuthorityService;
 import com.teamk.heroku.service.MemberService;
 
+//부모단 핸들 url을 지정할때는 반드시 value를 통해서 지정하도록 합시다 ㅠㅠ
 @RestController
-@RequestMapping("/rest/member")
+@RequestMapping(value="/rest/member")
 public class MemberRestController {
 
 	@Autowired

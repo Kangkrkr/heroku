@@ -17,12 +17,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http
         .authorizeRequests()
             .antMatchers("/", "/home").hasAnyAuthority("USER")
-            .antMatchers("/login", "/join").anonymous()
+            .antMatchers("/login", "/join", "/public").anonymous()
             .anyRequest().permitAll()
         .and()
         	.formLogin()
         	.loginPage("/login")
-        	.defaultSuccessUrl("/")
+        	.defaultSuccessUrl("/home")
         	.failureUrl("/login?error=falied")
         .and()
         	.logout()
@@ -31,6 +31,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         	.csrf().disable();
 	}
 	
+	
+
 	@Bean
 	public PasswordEncoder passwordEncoder(){
 		return new BCryptPasswordEncoder();

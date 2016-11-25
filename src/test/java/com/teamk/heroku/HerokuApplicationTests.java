@@ -66,7 +66,9 @@ public class HerokuApplicationTests {
 	private Member getMemberById(Session session, Long id) {
 		// 주키로 멤버를 가져옵니다.
 		Member member = (Member)session.createCriteria(Member.class)
-			.add(Restrictions.idEq(id)).uniqueResult();
+			.add(Restrictions.idEq(id))
+			.uniqueResult();
+			
 		return member;
 	}
 	

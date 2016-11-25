@@ -60,5 +60,9 @@ hr {
 .row {margin: 0;}
 #post-modal {max-height: 100%;}
 input[type=text]#title{font-weight: bold; font-size: 2rem;}
-.item-wrapper{margin: -10px 0;}
-img.image-preview {border-radius: 40px;}
+.item-wrapper{margin: 5px 0;}
+img.image-preview {border-radius: 40px; margin: 10px 0 30px 0;}
+#post-form{margin-bottom: 30px;}
+.modal {
+	max-height: 100%;
+}

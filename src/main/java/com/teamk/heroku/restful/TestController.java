@@ -30,8 +30,9 @@ import com.teamk.heroku.repository.MemberRepository;
 import com.teamk.heroku.repository.PostRepository;
 
 
+// 부모단 핸들 url을 지정할때는 반드시 value를 통해서 지정하도록 합시다 ㅠㅠ
 @RestController
-@RequestMapping("/rest/test")
+@RequestMapping(value="/rest/test")
 public class TestController {
 
 	@Autowired
