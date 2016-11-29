@@ -56,4 +56,12 @@ public class PostController {
 		
 		return res;
 	}
+	
+	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+	public ResponseEntity<?> removePost(@PathVariable("id") Long id) {
+		postService.delete(postService.findOne(id));
+		ResponseEntity<?> res = new ResponseEntity<>(HttpStatus.OK);
+		
+		return res;
+	}
 }

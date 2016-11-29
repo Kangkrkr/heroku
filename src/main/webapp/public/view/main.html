@@ -110,10 +110,11 @@
 					$scope.viewAvailable.push(false);
 			});
 			
-			$scope.postView = function(element, id){
+			$scope.postView = function(id){
+				// 파라미터로 $event를 받아 원본 엘리먼트를 가져올수도있다.($event.srcTarget)
+				
 				$scope.viewAvailable[id] ^= true;
 				if(!$scope.viewAvailable[id]) return;
-				console.log(id + " 번째 게시물 보기");
 				$http.get('/rest/post/'+id).then(function(res){
 					$scope.items = [];
 					$scope.items[id] = res.data;
@@ -121,11 +122,19 @@
 			};
 			
 			$scope.postEdit = function(id){
-				console.log(id + " 번째 게시물 수정");
+				Materialize.toast("수정기능은 아직 제공되지 않습니다.", 1000);
 			};
 			
 			$scope.postDelete = function(id){
-				console.log(id + " 번째 게시물  삭제");
+				$http({
+					method : 'DELETE',
+					url : '/rest/post/'+id
+				}).success(function(res){
+					Materialize.toast("삭제에 성공하였습니다.", 700);
+					setTimeout(function(){
+						location.reload(true);
+					}, 700);
+				}).error(function(err){Materialize.toast("해당글을 삭제하는데 실패하였습니다.", 1000);})
 			};
 		});
 		
