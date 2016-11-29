@@ -48,8 +48,10 @@ public class Post {
 	@JsonBackReference
 	private List<AbstractItem> items = new ArrayList<>();
 	
-	public Post(String title){
+	public Post(String title, Date date, Member member){
 		this.title = title;
+		this.date = date;
+		this.setMember(member);
 	}
 	
 	public void addItem(AbstractItem item){

@@ -17,6 +17,11 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper=false)
 public class LineItem extends AbstractItem {
 	
+	public LineItem(boolean isLine, Post post){
+		this.is_line = isLine;
+		this.setPost(post);
+	}
+	
 	@Column
 	private boolean is_line;
 	

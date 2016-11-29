@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -58,7 +59,8 @@ public class HerokuApplicationTests {
 		
 		Member member = getMemberById(session, 1l);
 		List<Post> posts = getPostsByMember(session, member);
-		printAllPostByMember(posts);
+		posts.forEach(post -> System.out.println(getItemsByPost(session, post)));
+		//printAllPostByMember(posts);
 		
 		System.out.println("테스트끝~");
 	}
@@ -75,11 +77,17 @@ public class HerokuApplicationTests {
 	@SuppressWarnings("unchecked")
 	private List<Post> getPostsByMember(Session session, Member member) {
 		// 해당 멤버가 쓴 포스트들을 모두 가져옴.
-		List<Post> posts = 
-				session.createCriteria(Post.class)
-					.add(Restrictions.eq("member", member))
-					.list();
-		return posts;
+		return session.createCriteria(Post.class)
+				.add(Restrictions.eq("member", member))
+				.list();
+	}
+	
+	@SuppressWarnings({ "unchecked", "unused"})
+	private List<AbstractItem> getItemsByPost(Session session, Post post){
+		return session.createCriteria(AbstractItem.class)
+			   .add(Restrictions.eq("post", post))
+			   .addOrder(Order.asc("id"))
+			   .list();
 	}
 	
 	private void printAllPostByMember(List<Post> posts) {

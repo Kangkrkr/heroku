@@ -16,6 +16,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper=false)
 public class StringItem extends AbstractItem {
+	
+	public StringItem(String content, Post post){
+		this.content = content;
+		this.setPost(post);
+	}
 
 	@Column(columnDefinition="varchar(2000)")
 	private String content;

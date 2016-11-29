@@ -17,6 +17,11 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper=false)
 public class ImageItem extends AbstractItem{
 
+	public ImageItem(String path, Post post){
+		this.image_path = path;
+		this.setPost(post);
+	}
+	
 	@Column
 	private String image_path;
 	

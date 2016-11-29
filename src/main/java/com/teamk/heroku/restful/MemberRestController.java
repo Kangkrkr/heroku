@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.teamk.heroku.domain.Authority;
 import com.teamk.heroku.domain.Member;
+import com.teamk.heroku.security.SecurityService;
 import com.teamk.heroku.service.AuthorityService;
 import com.teamk.heroku.service.MemberService;
 
@@ -29,6 +30,9 @@ public class MemberRestController {
 
 	@Autowired
 	private AuthorityService authorityService;
+	
+	@Autowired
+	private SecurityService securityService;
 	
 	@Autowired
 	private MemberService memberService;
@@ -67,6 +71,11 @@ public class MemberRestController {
 		memberService.join(member);
 		
 		return new ResponseEntity<String>("회원가입이 되었습니다.", HttpStatus.OK);
+	}
+	
+	@PostMapping("/current")
+	public ResponseEntity<?> currentMember(){
+		return new ResponseEntity<Member>(securityService.getCurrentMember(), HttpStatus.OK);
 	}
 	
 }

@@ -17,7 +17,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http
         .authorizeRequests()
             .antMatchers("/", "/home").hasAnyAuthority("USER")
-            .antMatchers("/login", "/join", "/public").anonymous()
+            .antMatchers("/login", "/join", "/public/").anonymous()
             .anyRequest().permitAll()
         .and()
         	.formLogin()
@@ -31,8 +31,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         	.csrf().disable();
 	}
 	
-	
-
 	@Bean
 	public PasswordEncoder passwordEncoder(){
 		return new BCryptPasswordEncoder();

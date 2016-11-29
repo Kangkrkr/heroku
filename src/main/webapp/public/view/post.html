@@ -6,6 +6,42 @@
 <link rel="stylesheet" href="/public/stylesheet/post-page.css">
 </head>
 <body>
+<div ng-controller="postController">
+	<div ng-repeat="post in posts">
+		<div class="row">
+			<div class="col s10 m8 offset-s1 offset-m2">
+				<div class="card teal lighten-3 z-depth-4">
+					<div class="card-content white-text">
+						<p class="card-title center-align">{{post.title}}</p>
+						<p class="right-align">작성일 : {{post.date}}</p>
+					</div>
+					<div class="card-action row teal lighten-2">
+						<div class="col s10 m10 offset-s2 offset-m2">
+							<a class="col s2 m3 center-align" ng-click="postView($event, post.id)">보기</a>
+							<a class="col s2 m3 center-align" ng-click="postEdit(post.id)">수정</a>
+							<a class="col s2 m3 center-align" ng-click="postDelete(post.id)">삭제</a>
+						</div>
+					</div>
+				</div>
+				<div class="row view-post grey lighten-4" ng-show="viewAvailable[post.id]">
+					<div class="row content">
+						<div class="row post valign center-align">
+							<h1 class="post-title" style="padding-top: 15px;">{{post.title}}</h1>
+							<hr class="title-liner"/>
+							<div ng-repeat="post in items[post.id]">
+								<div ng-if=post.content>{{post.content}}</div>
+								<div ng-if="post._line"><hr/></div>
+								<div class="row" ng-if="post.image_path">
+									<img ng-src="http://teamk.iptime.org:8020/images/{{currentMember.email}}/{{post.image_path}}"
+									 class="col s12 m8 offset-m2 image-preview" height="300"/>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="fixed-action-btn">
 		<a class="btn-floating btn-large red">
 		<i class="large material-icons">mode_edit</i>
@@ -32,7 +68,6 @@
 					<hr class="title-liner"/>
 					<div class="row item-container">
 						<!-- 사용자가 직접 엘리먼트를 추가한다. -->
-						<input name="image" class="col s3" type="file" accept="image/*" onchange="getThumbnailPrivew(this)"/>
 					</div>
 				</form>
 			</div>
@@ -45,7 +80,7 @@
 			<a class="col s3 center-align modal-action waves-effect waves-green btn-flat add-content">글추가</a>
 		</div>
 	</div>
-
+</div>
 	<script>
 		$(document).ready(function() {
 			$('#title').attr('name', 'title-'+new Date().getTime());
@@ -91,7 +126,20 @@
 					
 					$('.add-image').click(function(e){
 						e.preventDefault();
-						$('input:file').click();
+						
+						var $div = createDivision();
+						var $hiddenInput = document.createElement('input');
+						$($hiddenInput).attr({
+							'type' : 'file',
+							'name' : 'image-' + (new Date().getTime()),
+							'accept' : 'image/*',
+							'hidden' : 'hidden',
+							'onchange' : 'getThumbnailPrivew(this)'
+						});
+						$($div).append($hiddenInput);
+						addMouseHoverEventOnElement($div);
+						$('.item-container').append($div);
+						$($hiddenInput).click();
 					});
 					
 					$('.add-hr').click(function(){
@@ -202,13 +250,14 @@
 			}
 			
 			$.ajax({
-				url : '/post/upload',
+				url : '/rest/post/upload',
 				type : 'POST',
 				processData : false,
 				contentType : false,
            		data: formData,
            		success : function(result){
            			console.log(result);
+           			location.reload(true);
            		},
            		error : function(error){
            			console.log(error);
