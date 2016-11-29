@@ -4,11 +4,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
 <title>불타는 웹 스터디</title>
 </head>
-<link rel="stylesheet" href="/public/stylesheet/main-page.css">
-<link rel="stylesheet" href="/public/stylesheet/test.css">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+<link rel="stylesheet" href="/public/stylesheet/main-page.css">
+<link rel="stylesheet" href="/public/stylesheet/test.css">
 <script src="/lib/jquery/jquery.js"></script>
+<script src="/lib/jquery/jquery.form.js"></script>
+<script src="/lib/jquery/jquery.MultiFile.js"></script>
 <script src="/lib/angular/angular.min.js"></script>
 <script src="/lib/angular/angular-route.min.js"></script>
 <script src="/lib/socketjs/sockjs-1.1.1.min.js"></script>
@@ -18,18 +20,19 @@
 <script type="text/javascript" src="/public/js/calendar.js"></script>
 <script type="text/javascript" src="/public/js/init.js"></script>
 <body ng-app="angular-app">
+
 	<header>
 		<nav>
 			<div class="nav-wrapper">
 				<a href="#" class="brand-logo">Burning Web</a>
 				<a href="#" data-activates="mobile-demo" class="button-collapse"><i class="large material-icons">insert_chart</i></a>
 				<ul id="nav-mobile" class="right hide-on-med-and-down">
-					<li><a href="/#post">구현예정</a></li>
+					<li><a href="/#post">포스팅</a></li>
 					<li><a href="/#chat">방명록</a></li>
 					<li><a href="/logout">로그아웃</a></li>
 				</ul>
 				<ul class="side-nav" id="mobile-demo">
-			        <li><a href="/#post">구현예정</a></li>
+			        <li><a href="/#post">포스팅</a></li>
 					<li><a href="/#chat">방명록</a></li>
 					<li><a href="/logout">로그아웃</a></li>
 	      		</ul>
@@ -80,13 +83,6 @@
 				templateUrl : "/public/view/test.html",
 				controller: "chatController"
 			});
-
-			/*
-			$locationProvider.html5Mode({
-				enabled : true,
-				requireBase : false
-			});
-			 */
 		});
 		
 		app.controller('chatController', function($scope){
@@ -95,17 +91,56 @@
 			init();
 		});
 		
+		app.controller('postController', function($scope, $http) {
+			
+			$scope.viewAvailable = [];
+			
+			$http({
+				method : 'POST',
+				url : '/rest/member/current'
+			}).success(function(res){
+				$scope.currentMember = res;
+			}).error(function(err){console.log('ERROR')});
+			
+			$http.get('/rest/post').then(function(res){
+				console.log(res);
+				$scope.posts = res.data;
+				
+				for(var i=0; i<res.data.length; i++)
+					$scope.viewAvailable.push(false);
+			});
+			
+			$scope.postView = function(element, id){
+				$scope.viewAvailable[id] ^= true;
+				if(!$scope.viewAvailable[id]) return;
+				console.log(id + " 번째 게시물 보기");
+				$http.get('/rest/post/'+id).then(function(res){
+					$scope.items = [];
+					$scope.items[id] = res.data;
+				});
+			};
+			
+			$scope.postEdit = function(id){
+				console.log(id + " 번째 게시물 수정");
+			};
+			
+			$scope.postDelete = function(id){
+				console.log(id + " 번째 게시물  삭제");
+			};
+		});
+		
 		app.directive('main', function(){
 			return {
 				restrict: "E",
 				link: function(s, e, a, c){
 					$(e[0]).css({
-						'height' : $(window).height() - $('header').height() - $('.page-footer').height()
+						//'height' : $(window).height() - $('header').height() - $('.page-footer').height()
 					});
 				}
 			};
 		});
 		
+		/*
 		app.directive('pageFooter', function(){
 			return {
 				restrict: "C",
@@ -115,6 +150,7 @@
 				}
 			};
 		});
+		*/
 	</script>
 </body>
 </html>

@@ -17,8 +17,9 @@ import com.teamk.heroku.domain.Chat;
 import com.teamk.heroku.security.SecurityService;
 import com.teamk.heroku.service.ChatService;
 
+//부모단 핸들 url을 지정할때는 반드시 value를 통해서 지정하도록 합시다 ㅠㅠ
 @RestController
-@RequestMapping("/rest/chat")
+@RequestMapping(value="/rest/chat")
 public class ChatRestController {
 
 	@Autowired

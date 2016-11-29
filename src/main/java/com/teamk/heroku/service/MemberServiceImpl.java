@@ -16,6 +16,12 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Transactional(readOnly=true)
 	@Override
+	public Member findOne(Long id){
+		return memberRepository.findOne(id);
+	}
+	
+	@Transactional(readOnly=true)
+	@Override
 	public Member findByMemberEmail(String email) {
 		return memberRepository.findByEmail(email);
 	}

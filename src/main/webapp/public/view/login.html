@@ -89,12 +89,14 @@
 	        ending_top: '20%',
 	        ready: function(modal, trigger) {
 	        	if(!modalWasOpened){
+	        		/*
 	        		$(modal).css({
 		        		'width' : $('.login.container').width(),
 		        		'transition' : '0.4s',
 		        		'border-radius' : '20px'
 		        	});
 	        		modalWasOpened = true;
+	        		*/
 	        	}
 	        },
 	        complete: function() { }
@@ -120,7 +122,7 @@
 				if(result){
 					Materialize.toast(result, 1000);
 					setTimeout(function(){
-						location.href="/";
+						location.href="/home";
 					}, 1000);
 				}
 			},

@@ -26,7 +26,7 @@ public class HibernateConfig {
 		LocalSessionFactoryBean bean = new LocalSessionFactoryBean();
 		bean.setDataSource(dataSource);
 		bean.setHibernateProperties(hibernateProperties());
-		bean.setPackagesToScan("com.teamk.hibernate.domain");
+		bean.setPackagesToScan("com.teamk.heroku.domain");
 		
 		return bean;
 	}
