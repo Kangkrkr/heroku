@@ -36,7 +36,7 @@ public class Post {
 	@Column(columnDefinition="varchar(255)")
 	private String title;
 	
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
 	
 	@ManyToOne

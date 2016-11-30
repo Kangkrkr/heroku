@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -31,9 +32,14 @@ public class PostController {
 	@Autowired
 	private PostService postService;
 	
+	@RequestMapping(value="/count")
+	public ResponseEntity<?> count(){
+		return new ResponseEntity<Long>(postService.getPostCountByMember(securityService.getCurrentMember()), HttpStatus.OK);
+	}
+	
 	// 응답을 안내려주면 정상 요청을 받아서 404 에러가 뜬다.
 	@RequestMapping(value="/upload", method=RequestMethod.POST)
-	public ResponseEntity<?> testUpload(MultipartHttpServletRequest req) throws IOException {
+	public ResponseEntity<?> upload(MultipartHttpServletRequest req) throws IOException {
 
 		Member currentMember = securityService.getCurrentMember();
 		postService.write(req, currentMember);
@@ -43,8 +49,9 @@ public class PostController {
 	
 	// 현재 접속 멤버의 게시물들을 가져온다.
 	@RequestMapping
-	public ResponseEntity<?> getPosts() {
-		List<Post> posts = postService.getAllPostByCurrentMember(securityService.getCurrentMember());
+	public ResponseEntity<?> getPosts(@RequestParam(name="page", defaultValue="1") Integer page) {
+		// List<Post> posts = postService.getAllPostByCurrentMember(securityService.getCurrentMember());
+		List<Post> posts = postService.getPostsByPage(securityService.getCurrentMember(), page, 5);
 		ResponseEntity<?> res = new ResponseEntity<List<Post>>(posts, HttpStatus.OK);
 		
 		return res;

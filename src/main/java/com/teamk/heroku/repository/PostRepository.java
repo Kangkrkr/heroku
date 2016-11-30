@@ -9,9 +9,14 @@ import com.teamk.heroku.domain.Post;
 public interface PostRepository {
 
 	public Post findOne(Long id);
+	
 	public Post save(Post post);
 	public void delete(Post post);
+	
 	public Member getMemberById(Long id);
 	public List<Post> getPostsByMember(Member member);
+	public List<Post> getPostsByPage(Member member, int page, int size);
 	public List<AbstractItem> getItemsByPost(Post post);
+
+	public long getPostCountByMember(Member member);
 }

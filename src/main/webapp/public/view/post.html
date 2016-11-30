@@ -7,13 +7,20 @@
 </head>
 <body>
 <div ng-controller="postController">
+	
+	<ul class="pagination center-align">
+		<li class="waves-effect"><a ng-click="prev()"><i class="material-icons">chevron_left</i></a></li>
+		<li class="waves-effect page-button" ng-repeat="i in getMax(max) track by $index" ng-click="pagination($index+1, $event)"><a>{{$index+1}}</a></li>
+		<li class="waves-effect"><a ng-click="next()"><i class="material-icons">chevron_right</i></a></li>
+	</ul>
+
 	<div ng-repeat="post in posts">
 		<div class="row">
 			<div class="col s10 m8 offset-s1 offset-m2">
 				<div class="card teal lighten-3 z-depth-4">
 					<div class="card-content white-text">
 						<p class="card-title center-align">{{post.title}}</p>
-						<p class="right-align">작성일 : {{post.date}}</p>
+						<p class="right-align">작성일 : {{post.date | date:'yyyy-MM-dd a HH:mm:ss'}}</p>
 					</div>
 					<div class="card-action row teal lighten-2">
 						<div class="col s10 m10 offset-s2 offset-m2">
@@ -42,9 +49,10 @@
 			</div>
 		</div>
 	</div>
+
 	<div class="fixed-action-btn">
 		<a class="btn-floating btn-large red">
-		<i class="large material-icons">mode_edit</i>
+			<i class="large material-icons">mode_edit</i>
 		</a>
 		<ul>
 			<li><a class="btn-floating red add-post"><i class="material-icons">note_add</i></a></li>
@@ -224,7 +232,6 @@
 			
 			if (html.files && html.files[0]) {
 				imageList.push(html.files[0]);
-				console.log(imageList);
 				
 		        var reader = new FileReader();
 		        reader.onload = function (e) {
@@ -246,7 +253,6 @@
 				var item = it.next();
 				
 				if(!item.value) break;
-				console.log(item);
 			}
 			
 			$.ajax({
@@ -256,7 +262,6 @@
 				contentType : false,
            		data: formData,
            		success : function(result){
-           			console.log(result);
            			location.reload(true);
            		},
            		error : function(error){

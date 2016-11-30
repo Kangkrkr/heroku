@@ -86,13 +86,17 @@
 		});
 		
 		app.controller('chatController', function($scope){
-			console.log($(window).height());
 			$('body').height($(window).height());
 			init();
 		});
 		
 		app.controller('postController', function($scope, $http) {
+
+			$scope.page = 1;	// 초기 페이지넘버 설정.
+			$scope.size = 5;	// 페이지당 게시글 수 설정.
+			$scope.max = 1;		// 초기 page block 수 설정.
 			
+			$scope.pageButtons = [];
 			$scope.viewAvailable = [];
 			
 			$http({
@@ -101,14 +105,50 @@
 			}).success(function(res){
 				$scope.currentMember = res;
 			}).error(function(err){console.log('ERROR')});
-			
-			$http.get('/rest/post').then(function(res){
-				console.log(res);
-				$scope.posts = res.data;
-				
-				for(var i=0; i<res.data.length; i++)
-					$scope.viewAvailable.push(false);
+
+			$http.get('/rest/post/count').then(function(res){
+				$scope.max = Math.ceil(res.data / $scope.size);
 			});
+			
+			$scope.getMax = function(num){
+				return new Array(num);
+			};
+			
+			$scope.prev = function(){
+				if($scope.page - 1 <= 0){
+					$scope.page = 1;
+					return;
+				}
+				
+				$scope.pagination($scope.page-1);
+			};
+			
+			$scope.next = function(){
+				if($scope.page + 1 > $scope.max){
+					$scope.page = $scope.max;
+					return;
+				}
+				
+				$scope.pagination($scope.page+1);
+			};
+			
+			$scope.pagination = function(page, $event){
+				$scope.page = page;
+				
+				var e = $scope.pageButtons[page-1];
+				
+				$(e).addClass('active');
+				$(e).parent().find('li.page-button').not(e).removeClass('active');
+				
+				$http.get('/rest/post?page='+page).then(function(res){
+					$scope.posts = res.data;
+					
+					for(var i=0; i<res.data.length; i++)
+						$scope.viewAvailable.push(false);
+				});
+			};
+			
+			$scope.pagination(1);
 			
 			$scope.postView = function(id){
 				// 파라미터로 $event를 받아 원본 엘리먼트를 가져올수도있다.($event.srcTarget)
@@ -138,28 +178,15 @@
 			};
 		});
 		
-		app.directive('main', function(){
-			return {
-				restrict: "E",
-				link: function(s, e, a, c){
-					$(e[0]).css({
-						//'height' : $(window).height() - $('header').height() - $('.page-footer').height()
-					});
-				}
-			};
-		});
-		
-		/*
-		app.directive('pageFooter', function(){
+		app.directive('pageButton', function(){
 			return {
 				restrict: "C",
 				link: function(s, e, a, c){
-					$(e[0]).css({
-					});
+					// scope 변수에 해당 directive가 적용된 엘리먼트들을 모두 담는다. 
+					s.$parent.pageButtons.push(e); 	
 				}
 			};
 		});
-		*/
 	</script>
 </body>
 </html>

@@ -29,6 +29,28 @@ public class PostExtendedRepository implements PostRepository {
 	}
 	
 	@Override
+	public long getPostCountByMember(Member member){
+		return getPostsByMember(member).size();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Post> getPostsByPage(Member member, int page, int size){
+		Member currentMember = (Member)getSession().createCriteria(Member.class)
+		.add(Restrictions.idEq(member.getId()))
+		.uniqueResult();
+		
+		List<Post> posts = getSession().createCriteria(Post.class)
+		.add(Restrictions.eq("member", currentMember))
+		.setFirstResult((page - 1) * size)
+		.setMaxResults(size)
+		.addOrder(Order.desc("date"))
+		.list();
+		
+		return posts;
+	}
+	
+	@Override
 	public Post save(Post post) {
 		return crud.save(post);
 	}
@@ -57,7 +79,7 @@ public class PostExtendedRepository implements PostRepository {
 				.list();
 	}
 	
-	@SuppressWarnings({ "unchecked", "unused"})
+	@SuppressWarnings({"unchecked"})
 	@Override
 	public List<AbstractItem> getItemsByPost(Post post){
 		return getSession().createCriteria(AbstractItem.class)
