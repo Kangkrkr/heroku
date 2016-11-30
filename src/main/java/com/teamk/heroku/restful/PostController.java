@@ -1,11 +1,13 @@
 package com.teamk.heroku.restful;
 
 import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -63,5 +65,10 @@ public class PostController {
 		ResponseEntity<?> res = new ResponseEntity<>(HttpStatus.OK);
 		
 		return res;
+	}
+	
+	@ExceptionHandler(FileAlreadyExistsException.class)
+	public ResponseEntity<?> fileAlreadyExistsException(){
+		return new ResponseEntity<String>("업로드할 수 없습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }

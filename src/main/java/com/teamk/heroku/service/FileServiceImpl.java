@@ -14,9 +14,16 @@ public class FileServiceImpl implements FileService {
 	@Override
 	public String store(MultipartHttpServletRequest req, Path storePath, String name) throws IOException {
 		MultipartFile imageFile = req.getFile(name);
-		Files.copy(imageFile.getInputStream(), storePath.resolve(imageFile.getOriginalFilename()));
 		
-		return imageFile.getOriginalFilename();
+		String filename = imageFile.getOriginalFilename().substring(0, imageFile.getOriginalFilename().lastIndexOf('.'));
+		String executerName = imageFile.getOriginalFilename().substring(imageFile.getOriginalFilename().lastIndexOf('.'));
+		
+		filename += ('-'+(System.currentTimeMillis()));
+		filename += executerName;
+		
+		Files.copy(imageFile.getInputStream(), storePath.resolve(filename));
+		
+		return filename;
 	}
 
 }

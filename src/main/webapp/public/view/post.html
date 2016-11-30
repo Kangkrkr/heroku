@@ -32,7 +32,7 @@
 								<div ng-if=post.content>{{post.content}}</div>
 								<div ng-if="post._line"><hr/></div>
 								<div class="row" ng-if="post.image_path">
-									<img ng-src="http://teamk.iptime.org:8020/images/{{currentMember.email}}/{{post.image_path}}"
+									<img ng-src="http://52.78.193.213:8020/images/{{currentMember.email}}/{{post.image_path}}"
 									 class="col s12 m8 offset-m2 image-preview" height="300"/>
 								</div>
 							</div>
@@ -260,7 +260,7 @@
            			location.reload(true);
            		},
            		error : function(error){
-           			console.log(error);
+           			Materialize.toast(error.responseJSON, 1000);
            		}
 			});
 			

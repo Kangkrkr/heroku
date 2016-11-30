@@ -19,7 +19,7 @@ public class ServletConfig {
 	@Bean
 	public CommonsMultipartResolver multipartResolver() {
 		CommonsMultipartResolver bean = new CommonsMultipartResolver();
-		bean.setMaxUploadSize(1024 * 1024);
+		bean.setMaxUploadSize(1024 * 1024 * 10);
 		return bean;
 	}
 
