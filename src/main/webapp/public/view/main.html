@@ -27,13 +27,13 @@
 				<a href="#" class="brand-logo">Burning Web</a>
 				<a href="#" data-activates="mobile-demo" class="button-collapse"><i class="large material-icons">insert_chart</i></a>
 				<ul id="nav-mobile" class="right hide-on-med-and-down">
-					<li><a href="/#post">포스팅</a></li>
-					<li><a href="/#chat">방명록</a></li>
+					<li><a href="#post">포스팅</a></li>
+					<li><a href="#chat">방명록</a></li>
 					<li><a href="/logout">로그아웃</a></li>
 				</ul>
 				<ul class="side-nav" id="mobile-demo">
-			        <li><a href="/#post">포스팅</a></li>
-					<li><a href="/#chat">방명록</a></li>
+			        <li><a href="#post">포스팅</a></li>
+					<li><a href="#chat">방명록</a></li>
 					<li><a href="/logout">로그아웃</a></li>
 	      		</ul>
 			</div>
@@ -78,7 +78,8 @@
 
 		app.config(function($routeProvider, $locationProvider) {
 			$routeProvider.when("/post", {
-				templateUrl : "/public/view/post.html"
+				templateUrl : "/public/view/post.html",
+				controller : "postController"
 			}).when("/chat", {
 				templateUrl : "/public/view/test.html",
 				controller: "chatController"
@@ -104,14 +105,14 @@
 				url : '/rest/member/current'
 			}).success(function(res){
 				$scope.currentMember = res;
-			}).error(function(err){console.log('ERROR')});
+			}).error(function(err){Materialize.toast("사용자 정보를 불러오는데 실패하였습니다.", 2000);})
 
 			$http.get('/rest/post/count').then(function(res){
 				$scope.max = Math.ceil(res.data / $scope.size);
 			});
 			
-			$scope.getMax = function(num){
-				return new Array(num);
+			$scope.getMax = function(max){
+				return new Array(max);
 			};
 			
 			$scope.prev = function(){
@@ -132,8 +133,9 @@
 				$scope.pagination($scope.page+1);
 			};
 			
-			$scope.pagination = function(page, $event){
+			$scope.pagination = function(page){
 				$scope.page = page;
+				$scope.viewAvailable = [];	// viewAvailable 초기화.
 				
 				var e = $scope.pageButtons[page-1];
 				
@@ -142,17 +144,12 @@
 				
 				$http.get('/rest/post?page='+page).then(function(res){
 					$scope.posts = res.data;
-					
-					for(var i=0; i<res.data.length; i++)
-						$scope.viewAvailable.push(false);
 				});
 			};
 			
 			$scope.pagination(1);
 			
 			$scope.postView = function(id){
-				// 파라미터로 $event를 받아 원본 엘리먼트를 가져올수도있다.($event.srcTarget)
-				
 				$scope.viewAvailable[id] ^= true;
 				if(!$scope.viewAvailable[id]) return;
 				$http.get('/rest/post/'+id).then(function(res){

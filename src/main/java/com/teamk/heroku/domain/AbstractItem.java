@@ -14,15 +14,13 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
 
-@Data
-@Entity
+@Data @Entity
 @Table(name="item")
 @JsonIgnoreProperties(value="post")
 @Inheritance(strategy=InheritanceType.JOINED)
 public class AbstractItem {
 
-	@Id
-	@GeneratedValue
+	@Id @GeneratedValue
 	private Long id;
 
 	@ManyToOne

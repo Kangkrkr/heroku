@@ -9,14 +9,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-@Data
-@Entity
+@Data @Entity
 @Table(name="stringitem")
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper=false)
 public class StringItem extends AbstractItem {
-	
 	public StringItem(String content, Post post){
 		this.content = content;
 		this.setPost(post);
@@ -24,5 +22,4 @@ public class StringItem extends AbstractItem {
 
 	@Column(columnDefinition="varchar(2000)")
 	private String content;
-	
 }

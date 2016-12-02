@@ -6,11 +6,9 @@
 <link rel="stylesheet" href="/public/stylesheet/post-page.css">
 </head>
 <body>
-<div ng-controller="postController">
-	
 	<ul class="pagination center-align">
 		<li class="waves-effect"><a ng-click="prev()"><i class="material-icons">chevron_left</i></a></li>
-		<li class="waves-effect page-button" ng-repeat="i in getMax(max) track by $index" ng-click="pagination($index+1, $event)"><a>{{$index+1}}</a></li>
+		<li class="waves-effect page-button" ng-repeat="i in getMax(max) track by $index" ng-click="pagination($index+1)"><a>{{$index+1}}</a></li>
 		<li class="waves-effect"><a ng-click="next()"><i class="material-icons">chevron_right</i></a></li>
 	</ul>
 
@@ -35,11 +33,11 @@
 						<div class="row post valign center-align">
 							<h1 class="post-title" style="padding-top: 15px;">{{post.title}}</h1>
 							<hr class="title-liner"/>
-							<div ng-repeat="post in items[post.id]">
-								<div ng-if=post.content>{{post.content}}</div>
-								<div ng-if="post._line"><hr/></div>
-								<div class="row" ng-if="post.image_path">
-									<img ng-src="http://52.78.193.213:8020/images/{{currentMember.email}}/{{post.image_path}}"
+							<div ng-repeat="item in items[post.id]">
+								<div ng-if=item.content>{{item.content}}</div>
+								<div ng-if="item._line"><hr/></div>
+								<div class="row" ng-if="item.image_path">
+									<img ng-src="http://52.78.193.213:8020/images/{{currentMember.email}}/{{item.image_path}}"
 									 class="col s12 m8 offset-m2 image-preview" height="300"/>
 								</div>
 							</div>
@@ -84,11 +82,10 @@
 			<a class="col s3 center-align modal-action modal-close waves-effect waves-green btn-flat complete" onclick="uploadFile()">완료</a>
 			<a class="col s3 center-align modal-action waves-effect waves-green btn-flat add-hr">구분선추가</a>
 			<a class="col s3 center-align modal-action waves-effect waves-green btn-flat add-image">이미지추가</a>
-			<input class="col s3" type="file" accept="image/*" onchange="getThumbnailPrivew(this)" hidden="true"/>
 			<a class="col s3 center-align modal-action waves-effect waves-green btn-flat add-content">글추가</a>
 		</div>
 	</div>
-</div>
+	
 	<script>
 		$(document).ready(function() {
 			$('#title').attr('name', 'title-'+new Date().getTime());
@@ -167,8 +164,7 @@
 						$('.item-container').append($div);
 					});
 				},
-				complete : function() {
-				}
+				complete : function() {}
 			});
 			
 			$('.add-post').click(function(){
@@ -222,21 +218,15 @@
 			return $menu;
 		};
 		
-		imageList = [];
-		
 		function getThumbnailPrivew(html){
-			
 			var $preview = createDivision();
 			
 			addMouseHoverEventOnElement($preview);
 			
 			if (html.files && html.files[0]) {
-				imageList.push(html.files[0]);
-				
 		        var reader = new FileReader();
 		        reader.onload = function (e) {
 		            $($preview).css('display', '');
-		            //$target.css('background-image', 'url(\"' + e.target.result + '\")'); // 배경으로 지정시
 		            $($preview).append('<img class="col s10 offset-s1 m6 offset-m3 l6 offset-l3 image-preview" src="' + e.target.result + '" border="0" height="235" alt="" />');
 		            $('.item-container').append($preview);
 		        }
@@ -248,13 +238,6 @@
 			var form = $('#post-form')[0];
 			var formData = new FormData(form);
 
-			var it = formData.values();
-			while(true){
-				var item = it.next();
-				
-				if(!item.value) break;
-			}
-			
 			$.ajax({
 				url : '/rest/post/upload',
 				type : 'POST',
@@ -268,7 +251,6 @@
            			Materialize.toast(error.responseJSON, 1000);
            		}
 			});
-			
 		};
 	</script>
 </body>
