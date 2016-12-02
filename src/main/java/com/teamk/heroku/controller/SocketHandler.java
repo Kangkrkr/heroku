@@ -1,8 +1,6 @@
 package com.teamk.heroku.controller;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -13,20 +11,16 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 public class SocketHandler extends TextWebSocketHandler{
-
 	private static final Logger logger = LoggerFactory.getLogger(SocketHandler.class);
 	
 	private Set<WebSocketSession> sessions = new HashSet<>();
-	private List<String> chatList = new ArrayList<>();
-	
 	public SocketHandler() { super(); }
 
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		logger.info("connection established.");
-		if(sessions.add(session)){
+		if(sessions.add(session))
 			logger.info(session.getRemoteAddress() + "의 session이 성공적으로 저장되었습니다..");
-		}
 	}
 	
 	@Override
@@ -37,8 +31,6 @@ public class SocketHandler extends TextWebSocketHandler{
 	
 	@Override
 	public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
-		chatList.add((String)message.getPayload());
-		
 		for(WebSocketSession wss : sessions){
 			if(wss.isOpen())
 				wss.sendMessage(message);
@@ -50,5 +42,4 @@ public class SocketHandler extends TextWebSocketHandler{
 	public boolean supportsPartialMessages() {
 		return true;
 	}
-	
 }

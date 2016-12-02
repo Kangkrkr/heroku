@@ -37,6 +37,7 @@ public class PostService {
 	@Autowired
 	private FileService fileService;
 	
+	// 프론트에서 보내온 폼 데이터에 포함된 file names 와 parameter names 를 통합 후 정렬한다.
 	public List<String> sortItems(MultipartHttpServletRequest req) {
 		List<String> nameList = new ArrayList<>();
 		
@@ -56,10 +57,12 @@ public class PostService {
 		return nameList;
 	}
 
+	@Transactional(readOnly=true)
 	public Post findOne(Long id){
 		return postRepository.findOne(id);
 	}
 	
+	@Transactional(readOnly=true)
 	public long getPostCountByMember(Member member){
 		return postRepository.getPostCountByMember(member);
 	}
@@ -68,16 +71,19 @@ public class PostService {
 		List<String> items = this.sortItems(req);
 		
 		String title = req.getParameter(items.get(0));
+		// 포스트 엔티티 생성시 현재 로그인 멤버를 등록한다.
 		Post post = new Post(title, new Date(), currentMember);
-		//post.addItem(new StringItem(title, post));
 		
+		// 기본 저장소에다 현재 로그인한 사용자의 계정명을 추가하여 Path 를 얻어낸다.
 		Path storePath = Paths.get(IMAGE_PATH + currentMember.getEmail());
 		if(!Files.exists(storePath))
 			Files.createDirectory(storePath);
-		
+
+		// 정렬된 아이템 리스트 순회.
 		for(int i=1; i<items.size(); i++){
 			String name = items.get(i);
 			
+			// 아이템이 image 이면, 로컬에 저장후 이미지명을 post 엔티티에 추가(등록)한다.
 			if(name.startsWith("image")){
 				String filename = fileService.store(req, storePath, name);
 				post.addItem(new ImageItem(filename, post));
@@ -96,16 +102,18 @@ public class PostService {
 		postRepository.delete(post);
 	}
 
+	@Transactional(readOnly=true)
 	public List<Post> getAllPostByCurrentMember(Member member) {
 		return postRepository.getPostsByMember(member);
 	}
 	
+	@Transactional(readOnly=true)
 	public List<Post> getPostsByPage(Member member, int page, int size){
 		return postRepository.getPostsByPage(member, page, size);
 	}
 
+	@Transactional(readOnly=true)
 	public List<AbstractItem> getItemsByPost(Post post) {
 		return postRepository.getItemsByPost(post);
 	}
-
 }

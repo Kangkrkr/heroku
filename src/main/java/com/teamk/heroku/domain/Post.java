@@ -23,10 +23,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@Entity
-@Table
-@NoArgsConstructor
+@Data @Entity
+@Table @NoArgsConstructor
 public class Post {
 
 	@Id

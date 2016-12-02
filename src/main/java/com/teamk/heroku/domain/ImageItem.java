@@ -9,14 +9,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-@Data
-@Entity
+@Data @Entity
 @Table(name="imageitem")
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper=false)
 public class ImageItem extends AbstractItem{
-
 	public ImageItem(String path, Post post){
 		this.image_path = path;
 		this.setPost(post);
@@ -24,5 +22,4 @@ public class ImageItem extends AbstractItem{
 	
 	@Column
 	private String image_path;
-	
 }

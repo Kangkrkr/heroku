@@ -14,6 +14,7 @@ public class AuthorityService {
 	@Autowired
 	private AuthorityRepository authorityRepository;
 	
+	@Transactional(readOnly=true)
 	public Authority findByAuthority(String authority) {
 		return authorityRepository.findByAuthority(authority);
 	}
