@@ -24,5 +24,4 @@ public class ChatService {
 	public Chat save(Chat chat) {
 		return chatRepository.save(chat);
 	}
-
 }

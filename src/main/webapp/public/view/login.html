@@ -47,7 +47,7 @@
 	<div id="login-modal" class="modal z-depth-5 grey lighten-4">
 		<div class="modal-content">
 			<div class="row login container valign center-align">
-				<form class="col m8 offset-m2" id="login-form" name="login-form">
+				<form class="col m8 offset-m2" action="/login-process" method="post" id="login-form" name="login-form">
 					<div class="row">
 						<div class="input-field col m12">
 				          <input id="email" type="email" name="email" class="validate" placeholder="이메일을 입력하세요.">
@@ -59,7 +59,8 @@
 			          </div>
 			        </div>
 			        <div class="row">
-						<a class="col s10 offset-s1 waves-effect waves-light btn btn-login z-depth-2">로그인</a>
+						<!-- <a class="col s10 offset-s1 waves-effect waves-light btn btn-login z-depth-2">로그인</a> -->
+						<button class="col s10 offset-s1 waves-effect waves-light btn btn-dismiss z-depth-2" type="submit">로그인</button>
 						<a class="col s10 offset-s1 waves-effect waves-light btn btn-dismiss z-depth-2">취소</a>
 					</div>
 				</form>
@@ -107,6 +108,7 @@
 		$('.modal').modal('open');
 	});
 	
+	/*
 	$('.btn-login').click(function(){
 		var $loginForm = $('#login-form');
 		$loginForm.submit(function(){
@@ -131,6 +133,7 @@
 			}
 		});
 	});
+	*/
 	
 	$('.btn-dismiss').click(function(){
 		$('.modal').modal('close');

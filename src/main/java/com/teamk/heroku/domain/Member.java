@@ -66,7 +66,6 @@ public class Member {
 	@JsonBackReference
 	private List<Post> posts = new ArrayList<>();
 	
-	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "member_authority",
 			   joinColumns = {@JoinColumn(name="user_id")}, 

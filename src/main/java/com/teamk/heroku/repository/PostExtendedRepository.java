@@ -91,5 +91,4 @@ public class PostExtendedRepository implements PostRepository {
 	public Session getSession(){
 		return sessionFactory.getCurrentSession();
 	}
-	
 }
