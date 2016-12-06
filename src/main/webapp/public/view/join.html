@@ -50,6 +50,7 @@
 			type : 'POST',
 			data : params,
 			success : function(result){
+				console.log(result);
 				if(result){
 					Materialize.toast(result, 1200);
 					setTimeout(function(){
@@ -60,6 +61,7 @@
 			error : function(err){
 				//Materialize.toast(err.responseJSON, 1500);
 				Materialize.toast("가입도중 문제가 발생하였습니다.", 1500);
+				console.log(err);
 			}
 		});
 	});

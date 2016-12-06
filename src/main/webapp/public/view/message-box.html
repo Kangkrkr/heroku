@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
+<title>메세지함</title>
+<link rel="stylesheet" href="/public/stylesheet/message-box-page.css">
+</head>
+<body class="row">
+	<ul id="slide-out" class="side-nav">
+		<li><a href="#message-send"><i class="material-icons">textsms</i>메세지 보내기</a></li>
+		<li><a href="#message-box"><i class="material-icons">email</i>메세지함</a></li>
+		<li><div class="divider"></div></li>
+		<li><a class="subheader">Contact Us</a></li>
+		<li><a class="waves-effect" href="mailto:kangkrkr@naver.com"><i class="material-icons">error_outline</i>메일보내기</a></li>
+	</ul>
+	<a data-activates="slide-out" class="button-collapse"><i class="medium material-icons">menu</i></a>
+
+	<div class="row">
+		<blockquote class="col s10 offset-s1 m8 offset-m2">
+	      	메세지 목록
+	    </blockquote>
+		<div class="col s10 offset-s1 m8 offset-m2 collection">
+			<div class="collection-item" ng-repeat="message in messages | limitTo : 10" onclick="location.href='#message-box'">
+				<a>{{message.content}}</a><br/>
+				<span>수신일 - {{message.date | date:'yyyy-MM-dd a HH:mm:ss'}} - {{message.sender.email}}</span>
+			</div>
+		</div>
+	</div>
+	
+	<script>
+		
+		$('.button-collapse').sideNav({
+			menuWidth : 250, // Default is 240
+			edge : 'left', // Choose the horizontal origin
+			closeOnClick : true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+			draggable : true
+		});
+	</script>
+</body>
+</html>

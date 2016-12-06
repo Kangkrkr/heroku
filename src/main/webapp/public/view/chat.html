@@ -4,14 +4,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
 <title>불타는 웹 스터디</title>
 </head>
-<link rel="stylesheet" href="/public/stylesheet/test.css">
+<link rel="stylesheet" href="/public/stylesheet/chat-page.css">
+<script src="/lib/socketjs/sockjs-1.1.1.min.js"></script>
+<script src="/public/js/chat/socket.js"></script>
+<script src="/public/js/chat/init.js"></script>
 <body>
 	<div id="message-container" class="row">
 		<form id="form" class="col s6 offset-s3">
 			<div id="input-field" class="input-field">
 				<label id="message-label" for="message">방명록을 남겨보세요.</label>
 				<textarea id="message" class="materialize-textarea" ></textarea>
-				<a class="waves-effect waves-light btn col s8 offset-s2" onclick="send(this);">입력</a>
+				<a class="waves-effect waves-light btn col s8 offset-s2 deep-orange lighten-3" onclick="send(this);">입력</a>
 			</div>
 			
 			<div id="chat-container" class="row">
