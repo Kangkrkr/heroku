@@ -18,12 +18,12 @@
 	<div ng-repeat="post in posts">
 		<div class="row">
 			<div class="col s10 m8 offset-s1 offset-m2">
-				<div class="card teal lighten-3 z-depth-4">
+				<div class="card deep-orange lighten-3 z-depth-4">
 					<div class="card-content white-text">
 						<p class="card-title center-align">{{post.title}}</p>
 						<p class="right-align">작성일 : {{post.date | date:'yyyy-MM-dd a HH:mm:ss'}}</p>
 					</div>
-					<div class="card-action row teal lighten-2">
+					<div class="card-action row white">
 						<div class="col s10 m10 offset-s2 offset-m2">
 							<a class="col s2 m3 center-align" ng-click="postView(post.id)">보기</a>
 							<a class="col s2 m3 center-align" ng-click="postEdit(post.id)">수정</a>

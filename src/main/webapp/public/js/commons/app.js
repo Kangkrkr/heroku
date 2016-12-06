@@ -3,8 +3,16 @@ sendEnable = true;
 app = angular.module('angular-app', [ 'ngRoute' ]);
 app.config(function($routeProvider, $locationProvider) {
 	$routeProvider
+	.when("/", {
+		templateUrl: "/public/view/main-notification.html"
+	})
+	.when("/message-send", {
+		templateUrl: "/public/view/message-send.html",
+		controller: "messageSendController"
+	})
 	.when("/message-box", {
-		templateUrl : "/public/view/message-box.html"
+		templateUrl : "/public/view/message-box.html",
+		controller: "messageBoxController"
 	})
 	.when("/post", {
 		templateUrl : "/public/view/post.html",

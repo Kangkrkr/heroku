@@ -13,31 +13,33 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
 <script src="/public/js/commons/app.js"></script>
 <script src="/public/js/commons/calendar.js"></script>
+<script src="/public/js/message/controller/message-box-controller.js"></script>
+<script src="/public/js/message/controller/message-send-controller.js"></script>
 <script src="/public/js/chat/controller/chat-controller.js"></script>
 <script src="/public/js/post/controller/post-controller.js"></script>
 <script src="/public/js/main/directive/page-button.js"></script>
 <body ng-app="angular-app">
 	<header>
 		<nav>
-			<div class="nav-wrapper">
-				<a href="#" class="brand-logo">Burning Web</a>
-				<a href="#" data-activates="mobile-demo" class="button-collapse"><i class="large material-icons">insert_chart</i></a>
+			<div class="nav-wrapper" ng-controller="messageBoxController">
+				<a href="#/" class="brand-logo">Burning Web</a>
+				<a href="#/" data-activates="mobile-demo" class="button-collapse"><i class="large material-icons">insert_chart</i></a>
 				<ul id="nav-mobile" class="right hide-on-med-and-down">
-					<li><span class="new badge red" data-badge-caption="messages">2</span></li>
+					<li><span class="new badge red" data-badge-caption="messages">{{messageLength}}</span></li>
 					<li class="message-btn"><a class="dropdown-button" data-activates='message-list'><i class="large material-icons">email</i></a></li>
 					<li><a href="#post">포스팅</a></li>
 					<li><a href="#chat">방명록</a></li>
 					<li><a href="/logout">로그아웃</a></li>
 				</ul>
 				<ul class="side-nav" id="mobile-demo">
+					<li><i class="large material-icons">email</i><a href="#message-box">메시지함    <span class="new badge red" data-badge-caption="messages">{{messageLength}}</span></a></li>
 			        <li><a href="#post">포스팅</a></li>
 					<li><a href="#chat">방명록</a></li>
 					<li><a href="/logout">로그아웃</a></li>
 	      		</ul>
 	      		<div class="message-wrapper">
 					<ul id='message-list' class='dropdown-content'>
-						<li><a href="#!">박현요님이 메시지를 보냈습니다.</a></li>
-						<li><a href="#!">강승윤님이 친구추가 요청을 보냈습니다.</a></li>
+						<li ng-repeat="message in messages | limitTo:5"><a>{{message.content}}</a></li>
 						<li class="divider"></li>
 						<li><a href="#message-box">메시지함</a></li>
 					</ul>

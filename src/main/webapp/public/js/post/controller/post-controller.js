@@ -17,6 +17,7 @@ app.controller('postController', function($scope, $http) {
 	})
 
 	$http.get('/rest/post/count').then(function(res) {
+		$scope.count = res.data;
 		$scope.max = Math.ceil(res.data / $scope.size);
 	});
 
