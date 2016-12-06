@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,14 +20,18 @@ import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.teamk.heroku.domain.Chat;
 
 
+// 부모단 핸들 url을 지정할때는 반드시 value를 통해서 지정하도록 합시다 ㅠㅠ
 @RestController
-@RequestMapping("/rest/test")
+@RequestMapping(value="/rest/test")
 public class TestController {
 
 	@Autowired
 	private RestTemplate restTemplate;
 	
-	@PostMapping
+	@Autowired
+	private SessionFactory sessionFactory;
+	
+	@PostMapping("/restTemplate")
 	public List<Chat> test() throws JsonParseException, JsonMappingException, IOException{
 		
 		ResponseEntity<Object[]> response =
@@ -36,5 +42,9 @@ public class TestController {
 				TypeFactory.defaultInstance().constructCollectionLikeType(List.class, Chat.class));
 		
 		return chats;
+	}
+	
+	public Session getCurrentSession(){
+		return sessionFactory.getCurrentSession();
 	}
 }

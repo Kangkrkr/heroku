@@ -24,7 +24,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
-		registry.addViewController("/").setViewName("main");
+		registry.addRedirectViewController("/", "/login");
+		registry.addViewController("/home").setViewName("main");
 		registry.addViewController("/login").setViewName("login");
 		registry.addViewController("/join").setViewName("join");
 		registry.addViewController("/forbidden").setViewName("forbidden");
@@ -40,7 +41,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/my/**").addResourceLocations("/public/");
+		registry.addResourceHandler("/resources/**").addResourceLocations("/");
 	}
 
 	@Override

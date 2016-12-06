@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
-<title>Insert title here</title>
+<title>불타는 웹 스터디</title>
 <script src="/lib/jquery/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
 <link rel="stylesheet" href="/public/stylesheet/login-page.css">
@@ -11,22 +11,22 @@
 <body class="valign-wrapper">
 	<div class="slider">
 		<ul class="slides">
-			<li><img src="http://lorempixel.com/580/250/nature/1">
+			<li><img src="/public/img/1.jpg" width="580" height="250">
 				<div class="caption center-align">
 					<h3>힘들다 힘들어</h3>
 					<h5 class="light grey-text text-lighten-3">으으 살려줘</h5>
 				</div></li>
-			<li><img src="http://lorempixel.com/580/250/nature/2">
+			<li><img src="/public/img/2.JPG" width="580" height="250">
 				<div class="caption left-align">
 					<h3>이제는 진짜</h3>
 					<h5 class="light grey-text text-lighten-3">자러가야지</h5>
 				</div></li>
-			<li><img src="http://lorempixel.com/580/250/nature/3">
+			<li><img src="/public/img/3.JPG" width="580" height="250">
 				<div class="caption right-align">
 					<h3>목도 아프다</h3>
 					<h5 class="light grey-text text-lighten-3">병원갔다 와야되는데</h5>
 				</div></li>
-			<li><img src="http://lorempixel.com/580/250/nature/4">
+			<li><img src="/public/img/4.JPG" width="580" height="250">
 				<div class="caption center-align">
 					<h3>프론트는 힘들어</h3>
 					<h5 class="light grey-text text-lighten-3">지옥이야 지옥</h5>
@@ -35,10 +35,10 @@
 	</div>
 
 	<div class="row btn-container valign center-align">
-        <div class="col s12">
+        <div class="col s12 m12 l12">
 			<a class="modal-trigger col s12 waves-effect waves-light btn open-modal-btn z-depth-5">로그인하기</a>
 		</div>
-		<div class="col s12">
+		<div class="col s12 m12 l12">
 			<a class="col s12 waves-effect waves-light btn join z-depth-5" href="/join">회원가입 페이지로</a>
 		</div>
 	</div>
@@ -47,7 +47,7 @@
 	<div id="login-modal" class="modal z-depth-5 grey lighten-4">
 		<div class="modal-content">
 			<div class="row login container valign center-align">
-				<form class="col m8 offset-m2" id="login-form" name="login-form">
+				<form class="col m8 offset-m2" action="/login-process" method="post" id="login-form" name="login-form">
 					<div class="row">
 						<div class="input-field col m12">
 				          <input id="email" type="email" name="email" class="validate" placeholder="이메일을 입력하세요.">
@@ -59,7 +59,8 @@
 			          </div>
 			        </div>
 			        <div class="row">
-						<a class="col s10 offset-s1 waves-effect waves-light btn btn-login z-depth-2">로그인</a>
+						<!-- <a class="col s10 offset-s1 waves-effect waves-light btn btn-login z-depth-2">로그인</a> -->
+						<button class="col s10 offset-s1 waves-effect waves-light btn btn-dismiss z-depth-2" type="submit">로그인</button>
 						<a class="col s10 offset-s1 waves-effect waves-light btn btn-dismiss z-depth-2">취소</a>
 					</div>
 				</form>
@@ -89,12 +90,14 @@
 	        ending_top: '20%',
 	        ready: function(modal, trigger) {
 	        	if(!modalWasOpened){
+	        		/*
 	        		$(modal).css({
 		        		'width' : $('.login.container').width(),
 		        		'transition' : '0.4s',
 		        		'border-radius' : '20px'
 		        	});
 	        		modalWasOpened = true;
+	        		*/
 	        	}
 	        },
 	        complete: function() { }
@@ -105,6 +108,7 @@
 		$('.modal').modal('open');
 	});
 	
+	/*
 	$('.btn-login').click(function(){
 		var $loginForm = $('#login-form');
 		$loginForm.submit(function(){
@@ -120,7 +124,7 @@
 				if(result){
 					Materialize.toast(result, 1000);
 					setTimeout(function(){
-						location.href="/";
+						location.href="/home";
 					}, 1000);
 				}
 			},
@@ -129,6 +133,7 @@
 			}
 		});
 	});
+	*/
 	
 	$('.btn-dismiss').click(function(){
 		$('.modal').modal('close');

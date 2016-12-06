@@ -1,24 +1,91 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
+<title>불타는 웹 스터디</title>
+<link rel="stylesheet" href="/public/stylesheet/post-page.css">
+<script src="/lib/jquery/jquery.form.js"></script>
+<script src="/lib/jquery/jquery.MultiFile.js"></script>
+<script src="/public/js/post/post.js"></script>
 </head>
 <body>
-	<h6 class="center-align">여기다가는 게시글 업로드 기능을 넣을 예정.</h6>
-	<div class="row">
-		<div class="col m6 offset-m3">
-			<div class="card z-depth-4">
-				<div class="card-image">
-					<img src="/public/img/card.JPG" height="300px"> <span class="card-title">게시글 제목</span>
+	<ul class="pagination center-align">
+		<li class="waves-effect"><a ng-click="prev()"><i class="material-icons">chevron_left</i></a></li>
+		<li class="waves-effect page-button" ng-repeat="i in getMax(max) track by $index" ng-click="pagination($index+1)"><a>{{$index+1}}</a></li>
+		<li class="waves-effect"><a ng-click="next()"><i class="material-icons">chevron_right</i></a></li>
+	</ul>
+
+	<div ng-repeat="post in posts">
+		<div class="row">
+			<div class="col s10 m8 offset-s1 offset-m2">
+				<div class="card deep-orange lighten-3 z-depth-4">
+					<div class="card-content white-text">
+						<p class="card-title center-align">{{post.title}}</p>
+						<p class="right-align">작성일 : {{post.date | date:'yyyy-MM-dd a HH:mm:ss'}}</p>
+					</div>
+					<div class="card-action row white">
+						<div class="col s10 m10 offset-s2 offset-m2">
+							<a class="col s2 m3 center-align" ng-click="postView(post.id)">보기</a>
+							<a class="col s2 m3 center-align" ng-click="postEdit(post.id)">수정</a>
+							<a class="col s2 m3 center-align" ng-click="postDelete(post.id)">삭제</a>
+						</div>
+					</div>
 				</div>
-				<div class="card-content">
-					<p>가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하</p>
-				</div>
-				<div class="card-action">
-					<a href="#">링크를 걸 수도 있다.</a>
+				<div class="row view-post grey lighten-4" ng-show="viewAvailable[post.id]">
+					<div class="row content">
+						<div class="row post valign center-align">
+							<h1 class="post-title" style="padding-top: 15px;">{{post.title}}</h1>
+							<hr class="title-liner"/>
+							<div ng-repeat="item in items[post.id]">
+								<div ng-if=item.content>{{item.content}}</div>
+								<div ng-if="item._line"><hr/></div>
+								<div class="row" ng-if="item.image_path">
+									<img ng-src="http://52.78.193.213:8020/images/{{currentMember.email}}/{{item.image_path}}"
+									 class="col s12 m6 offset-m3 image-preview" height="300"/>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
+		</div>
+	</div>
+
+	<div class="fixed-action-btn">
+		<a class="btn-floating btn-large red">
+			<i class="large material-icons">mode_edit</i>
+		</a>
+		<ul>
+			<li><a class="btn-floating red add-post"><i class="material-icons">note_add</i></a></li>
+			<li><a class="btn-floating yellow darken-1 edit-post">
+				<i class="material-icons">mode_edit</i></a>
+			</li>
+			<li><a class="btn-floating green delete-post"><i class="material-icons">not_interested</i></a></li>
+		</ul>
+	</div>
+	
+	<!-- Modal Structure -->
+	<div id="post-modal row" class="modal z-depth-5 grey lighten-4">
+		<div class="row modal-content">
+			<div class="row valign center-align">
+				<form id="post-form" class="row" name="postForm" method="post" enctype="multipart/form-data">
+					<div class="row title-container">
+						<div class="input-field col m8 offset-m2">
+				          <input id="title" type="text" class="center-align" placeholder="제목">
+				        </div>
+					</div>
+					<hr class="title-liner"/>
+					<div class="row item-container">
+						<!-- 사용자가 직접 엘리먼트를 추가한다. -->
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="row modal-footer ">
+			<a class="col s3 center-align modal-action modal-close waves-effect waves-green btn-flat complete" onclick="uploadFile()">완료</a>
+			<a class="col s3 center-align modal-action waves-effect waves-green btn-flat add-hr">구분선추가</a>
+			<a class="col s3 center-align modal-action waves-effect waves-green btn-flat add-image">이미지추가</a>
+			<a class="col s3 center-align modal-action waves-effect waves-green btn-flat add-content">글추가</a>
 		</div>
 	</div>
 </body>

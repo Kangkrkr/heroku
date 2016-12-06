@@ -4,35 +4,47 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
 <title>불타는 웹 스터디</title>
 </head>
-<link rel="stylesheet" href="/public/stylesheet/main-page.css">
-<link rel="stylesheet" href="/public/stylesheet/test.css">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+<link rel="stylesheet" href="/public/stylesheet/main-page.css">
 <script src="/lib/jquery/jquery.js"></script>
 <script src="/lib/angular/angular.min.js"></script>
 <script src="/lib/angular/angular-route.min.js"></script>
-<script src="/lib/socketjs/sockjs-1.1.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
-<script type="text/javascript" src="/public/js/socket.js"></script>
-<script type="text/javascript" src="/public/js/app.js"></script>
-<script type="text/javascript" src="/public/js/calendar.js"></script>
-<script type="text/javascript" src="/public/js/init.js"></script>
+<script src="/public/js/commons/app.js"></script>
+<script src="/public/js/commons/calendar.js"></script>
+<script src="/public/js/message/controller/message-box-controller.js"></script>
+<script src="/public/js/message/controller/message-send-controller.js"></script>
+<script src="/public/js/chat/controller/chat-controller.js"></script>
+<script src="/public/js/post/controller/post-controller.js"></script>
+<script src="/public/js/main/directive/page-button.js"></script>
+<script src="/public/js/message/directive/message-directive.js"></script>
 <body ng-app="angular-app">
 	<header>
 		<nav>
-			<div class="nav-wrapper">
-				<a href="#" class="brand-logo">Burning Web</a>
-				<a href="#" data-activates="mobile-demo" class="button-collapse"><i class="large material-icons">insert_chart</i></a>
+			<div class="nav-wrapper" ng-controller="messageBoxController">
+				<a href="#/" class="brand-logo">Burning Web</a>
+				<a href="#/" data-activates="mobile-demo" class="button-collapse"><i class="large material-icons">insert_chart</i></a>
 				<ul id="nav-mobile" class="right hide-on-med-and-down">
-					<li><a href="/#post">구현예정</a></li>
-					<li><a href="/#chat">방명록</a></li>
+					<li ng-if="unreadMessages > 0"><span class="new badge red" data-badge-caption="개의 읽지않은 메세지">{{unreadMessages}}</span></li>
+					<li class="message-btn"><a class="dropdown-button" data-activates='message-list'><i class="large material-icons">email</i></a></li>
+					<li><a href="#post">포스팅</a></li>
+					<li><a href="#chat">방명록</a></li>
 					<li><a href="/logout">로그아웃</a></li>
 				</ul>
 				<ul class="side-nav" id="mobile-demo">
-			        <li><a href="/#post">구현예정</a></li>
-					<li><a href="/#chat">방명록</a></li>
+					<li><i class="large material-icons">email</i><a href="#message-box">메시지함    <span ng-if="unreadMessages > 0" class="new badge red" data-badge-caption="messages">{{messageLength}}</span></a></li>
+			        <li><a href="#post">포스팅</a></li>
+					<li><a href="#chat">방명록</a></li>
 					<li><a href="/logout">로그아웃</a></li>
 	      		</ul>
+	      		<div class="message-wrapper">
+					<ul id='message-list' class='dropdown-content'>
+						<li ng-repeat="message in messages | limitTo:5"><a>{{message.content}}</a></li>
+						<li class="divider"></li>
+						<li><a href="#message-box">메시지함</a></li>
+					</ul>
+	      		</div>
 			</div>
 		</nav>
 	</header>
@@ -65,48 +77,23 @@
 		</div>
 	</footer>
 
-
 	<script>
 		$(document).ready(function() {
-			$(".button-collapse").sideNav();
-		});
-
-		var app = angular.module('angular-app', [ 'ngRoute' ]);
-
-		app.config(function($routeProvider, $locationProvider) {
-			$routeProvider.when("/post", {
-				templateUrl : "/public/view/post.html"
-			}).when("/chat", {
-				templateUrl : "/public/view/test.html",
-				controller: "chatController"
+			$(".button-collapse").sideNav({
+				menuWidth : 180, // Default is 240
+				edge : 'left', // Choose the horizontal origin
+				closeOnClick : true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+				draggable : true
 			});
-		});
-		
-		app.controller('chatController', function($scope){
-			console.log($(window).height());
-			$('body').height($(window).height());
-			init();
-		});
-		
-		app.directive('main', function(){
-			return {
-				restrict: "E",
-				link: function(s, e, a, c){
-					$(e[0]).css({
-						'height' : $(window).height() - $('header').height() - $('.page-footer').height()
-					});
-				}
-			};
-		});
-		
-		app.directive('pageFooter', function(){
-			return {
-				restrict: "C",
-				link: function(s, e, a, c){
-					$(e[0]).css({
-					});
-				}
-			};
+			$('.dropdown-button').dropdown({
+				inDuration : 300,
+				outDuration : 225,
+				constrain_width : false, // Does not change width of dropdown to that of the activator
+				hover : false, // Activate on hover
+				gutter : 0, // Spacing from edge
+				belowOrigin : true, // Displays dropdown below the button
+				alignment : 'right' // Displays dropdown with edge aligned to the left of button
+			});
 		});
 	</script>
 </body>

@@ -1,0 +1,18 @@
+@CHARSET "UTF-8";
+
+div.message-panel {
+	float: right;
+	position : relative;
+	top : -5.2rem;
+	margin-bottom : -6rem;
+	padding-bottom : -6rem;
+	opacity: 0;
+}
+
+button {
+	float: right;
+	margin-right: 3px;
+	position: relative;
+	top : 2.5rem;
+	/* 1rem -> 14px */
+}

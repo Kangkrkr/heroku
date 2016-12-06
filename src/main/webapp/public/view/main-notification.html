@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
+<title>메세지함</title>
+<link rel="stylesheet" href="/public/stylesheet/main-notification-page.css">
+</head>
+<body class="row">
+<div class="row">
+	<div class="col s10 offset-s1 m6" ng-controller="messageBoxController">
+		<blockquote class="col s10 offset-s1 m8 offset-m2">
+	      	최근 메세지 목록
+	    </blockquote>
+	    <div class="col s12 m8 offset-m2 collection-item" ng-if="messageLength == 0">
+			<a onclick="location.href='#message-box'">수신한 메세지가 없습니다.</a>
+		</div>
+		<div class="col s12 m10 offset-m1 collection z-depth-3" ng-if="messageLength > 0">
+			<div class="collection-item" ng-repeat="message in messages | limitTo : 5" onclick="location.href='#message-box'">
+				<a>{{message.content}}</a><br/>
+				<span>수신일 - {{message.date | date:'yyyy-MM-dd a HH:mm:ss'}} - {{message.sender.email}}</span>
+			</div>
+		</div>
+	</div>
+	<div class="col s10 offset-s1 offset-s1 m6" ng-controller="postController">
+		<blockquote class="col s12 m8 offset-m2">
+	      	최근 게시물 목록
+	    </blockquote>
+		<div class="col s12 m8 offset-m2 collection-item" ng-if="count <= 0">
+			<a onclick="location.href='#post'">등록된 게시물이 없습니다.</a>
+		</div>
+		<div class="row" ng-repeat="post in posts | limitTo : 3" ng-if="count > 0">
+			<div class="col s12 m10 offset-m1" onclick="location.href='#post'">
+				<div class="card deep-orange lighten-3 z-depth-4">
+					<div class="card-content white-text">
+						<p class="card-title center-align">{{post.title}}</p>
+						<p class="right-align">작성일 : {{post.date | date:'yyyy-MM-dd a HH:mm:ss'}}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
