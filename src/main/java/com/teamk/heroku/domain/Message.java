@@ -37,6 +37,9 @@ public class Message {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
 	
+	@Column(name="is_read")
+	private boolean isRead;
+	
 	@ManyToOne
 	@JoinColumn(name="messagebox_id")
 	@JsonManagedReference
