@@ -1,4 +1,4 @@
-app.controller('postController', function($scope, $http) {
+app.controller('postController', function($scope, $http, $timeout) {
 
 	$scope.page = 1; // 초기 페이지넘버 설정.
 	$scope.size = 5; // 페이지당 게시글 수 설정.
@@ -79,7 +79,7 @@ app.controller('postController', function($scope, $http) {
 			url : '/rest/post/' + id
 		}).success(function(res) {
 			Materialize.toast("삭제에 성공하였습니다.", 700);
-			setTimeout(function() {
+			$timeout(function() {
 				location.reload(true);
 			}, 700);
 		}).error(function(err) {
