@@ -21,6 +21,14 @@ public class MessageService {
 		return messageRepository.save(message);
 	}
 	
+	public boolean read(Long id){
+		return messageRepository.read(id);
+	}
+	
+	public void delete(Long id){
+		messageRepository.delete(id);
+	}
+	
 	public List<Message> getMessagesByMember(Member current){
 		return messageRepository.findMessageByCurrentMember(current);
 	}
