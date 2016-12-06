@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,18 +51,17 @@ public class MessageController {
 	
 	@PostMapping(value="/send")
 	public ResponseEntity<?> send(@RequestParam("targetEmail") String targetEmail, @RequestParam("content") String content){
-		try{
-			Member member = memberService.findByMemberEmail(targetEmail);
-			Message message = new Message(content, member.getMessageBox(), securityService.getCurrentMember());
-			message.setRead(false);
-			
-			messageService.save(message);
-		}catch(Exception e){
-			e.printStackTrace();
-			return new ResponseEntity<>("메세지 전송에 실패하였습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+		Member member = memberService.findByMemberEmail(targetEmail);
+		Message message = new Message(content, member.getMessageBox(), securityService.getCurrentMember());
+		message.setRead(false);
+		
+		messageService.save(message);
 		
 		return new ResponseEntity<>("메세지 전송에 성공하였습니다.", HttpStatus.OK);
 	}
 	
+	@ExceptionHandler(NullPointerException.class)
+	public ResponseEntity<?> nullPointerException(){
+		return new ResponseEntity<String>("해당 사용자를 찾을 수 없습니다.", HttpStatus.OK);
+	}
 }

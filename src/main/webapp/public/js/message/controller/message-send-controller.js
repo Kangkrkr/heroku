@@ -24,6 +24,7 @@ app.controller('messageSendController', function($scope, $http, $timeout){
 				location.reload(true);
 			}, 500);
 		}).error(function(error) {
+			$scope.sendEnable = true;
 			Materialize.toast("메세지를 보낼 수 없습니다.", 1500);
 		});
 	};
