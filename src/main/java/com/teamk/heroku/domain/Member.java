@@ -36,6 +36,7 @@ public class Member {
 
 	@Id
 	@GeneratedValue
+	@JsonIgnore
 	private Long id;
 	
 	@NotNull
@@ -76,6 +77,7 @@ public class Member {
 	@JoinTable(name = "member_authority",
 			   joinColumns = {@JoinColumn(name="user_id")}, 
 			   inverseJoinColumns = {@JoinColumn(name="authority_id")})
+	@JsonIgnore
 	private Set<Authority> authorities = new HashSet<>();
 	
 	public void addItem(Post post){

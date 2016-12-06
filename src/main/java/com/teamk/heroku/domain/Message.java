@@ -12,7 +12,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Getter;
@@ -22,11 +24,13 @@ import lombok.Setter;
 @Entity @Table
 @Getter @Setter
 @NoArgsConstructor
+@JsonIgnoreProperties(value="messageBox")
 public class Message {
 	
 	@Id @GeneratedValue
 	private Long id;
 	
+	@NotNull
 	@Column(columnDefinition="varchar(1000)", nullable=false)
 	private String content;
 	
@@ -41,4 +45,11 @@ public class Message {
 	@OneToOne
 	@JoinColumn(name="sender_id")
 	private Member sender;
+	
+	public Message(String content, MessageBox messageBox, Member sender){
+		this.content = content;
+		this.date = new Date();
+		this.messageBox = messageBox;
+		this.sender = sender;
+	}
 }
