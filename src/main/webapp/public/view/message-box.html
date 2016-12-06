@@ -20,7 +20,8 @@
 	      	메세지 목록
 	    </blockquote>
 		<div class="col s10 offset-s1 m8 offset-m2 collection">
-			<div class="collection-item" ng-repeat="message in messages | limitTo : 10" onclick="location.href='#message-box'">
+		<!-- 페이징 처리 필요. 일단 임의대로 10개정도로 제한을 두었음. -->
+			<div class="collection-item message" data-id="{{message.id}}" data-read="{{message.read}}" ng-repeat="message in messages | limitTo:10">
 				<a>{{message.content}}</a><br/>
 				<span>수신일 - {{message.date | date:'yyyy-MM-dd a HH:mm:ss'}} - {{message.sender.email}}</span>
 			</div>

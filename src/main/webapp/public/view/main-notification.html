@@ -15,7 +15,7 @@
 			<a onclick="location.href='#message-box'">수신한 메세지가 없습니다.</a>
 		</div>
 		<div class="col s12 m10 offset-m1 collection z-depth-3" ng-if="messageLength > 0">
-			<div class="collection-item" ng-repeat="message in messages | limitTo : 10" onclick="location.href='#message-box'">
+			<div class="collection-item" ng-repeat="message in messages | limitTo : 5" onclick="location.href='#message-box'">
 				<a>{{message.content}}</a><br/>
 				<span>수신일 - {{message.date | date:'yyyy-MM-dd a HH:mm:ss'}} - {{message.sender.email}}</span>
 			</div>

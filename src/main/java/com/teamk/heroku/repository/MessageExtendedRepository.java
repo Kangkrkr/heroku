@@ -27,6 +27,22 @@ public class MessageExtendedRepository implements MessageRepository {
 		return crud.save(message);
 	}
 	
+	@Override
+	public boolean read(Long id) {
+		Message message = crud.findOne(id);
+		boolean hasRead = message.isRead();
+		
+		message.setRead(true);
+		crud.save(message);
+		
+		return hasRead;
+	}
+	
+	@Override
+	public void delete(Long id) {
+		crud.delete(id);
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Message> findMessageByCurrentMember(Member current) {
@@ -44,4 +60,5 @@ public class MessageExtendedRepository implements MessageRepository {
 	private Session getSession(){
 		return sessionFactory.getCurrentSession();
 	}
+	
 }

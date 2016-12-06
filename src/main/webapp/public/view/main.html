@@ -18,6 +18,7 @@
 <script src="/public/js/chat/controller/chat-controller.js"></script>
 <script src="/public/js/post/controller/post-controller.js"></script>
 <script src="/public/js/main/directive/page-button.js"></script>
+<script src="/public/js/message/directive/message-directive.js"></script>
 <body ng-app="angular-app">
 	<header>
 		<nav>
@@ -25,14 +26,14 @@
 				<a href="#/" class="brand-logo">Burning Web</a>
 				<a href="#/" data-activates="mobile-demo" class="button-collapse"><i class="large material-icons">insert_chart</i></a>
 				<ul id="nav-mobile" class="right hide-on-med-and-down">
-					<li><span class="new badge red" data-badge-caption="messages">{{messageLength}}</span></li>
+					<li ng-if="unreadMessages > 0"><span class="new badge red" data-badge-caption="개의 읽지않은 메세지">{{unreadMessages}}</span></li>
 					<li class="message-btn"><a class="dropdown-button" data-activates='message-list'><i class="large material-icons">email</i></a></li>
 					<li><a href="#post">포스팅</a></li>
 					<li><a href="#chat">방명록</a></li>
 					<li><a href="/logout">로그아웃</a></li>
 				</ul>
 				<ul class="side-nav" id="mobile-demo">
-					<li><i class="large material-icons">email</i><a href="#message-box">메시지함    <span class="new badge red" data-badge-caption="messages">{{messageLength}}</span></a></li>
+					<li><i class="large material-icons">email</i><a href="#message-box">메시지함    <span ng-if="unreadMessages > 0" class="new badge red" data-badge-caption="messages">{{messageLength}}</span></a></li>
 			        <li><a href="#post">포스팅</a></li>
 					<li><a href="#chat">방명록</a></li>
 					<li><a href="/logout">로그아웃</a></li>

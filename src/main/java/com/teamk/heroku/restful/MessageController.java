@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,11 +37,23 @@ public class MessageController {
 		return new ResponseEntity<List<Message>>(messageService.getMessagesByMember(securityService.getCurrentMember()), HttpStatus.OK);
 	}
 	
+	@GetMapping(value="/{id}")
+	public ResponseEntity<?> read(@PathVariable("id") Long id){
+		return new ResponseEntity<Boolean>(messageService.read(id), HttpStatus.OK);
+	}
+	
+	@DeleteMapping(value="/{id}")
+	public ResponseEntity<?> delete(@PathVariable("id") Long id){
+		messageService.delete(id);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
 	@PostMapping(value="/send")
 	public ResponseEntity<?> send(@RequestParam("targetEmail") String targetEmail, @RequestParam("content") String content){
 		try{
 			Member member = memberService.findByMemberEmail(targetEmail);
 			Message message = new Message(content, member.getMessageBox(), securityService.getCurrentMember());
+			message.setRead(false);
 			
 			messageService.save(message);
 		}catch(Exception e){
