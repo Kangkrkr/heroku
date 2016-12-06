@@ -7,26 +7,24 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
 <link rel="stylesheet" href="/public/stylesheet/main-page.css">
-<link rel="stylesheet" href="/public/stylesheet/test.css">
 <script src="/lib/jquery/jquery.js"></script>
-<script src="/lib/jquery/jquery.form.js"></script>
-<script src="/lib/jquery/jquery.MultiFile.js"></script>
 <script src="/lib/angular/angular.min.js"></script>
 <script src="/lib/angular/angular-route.min.js"></script>
-<script src="/lib/socketjs/sockjs-1.1.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
-<script type="text/javascript" src="/public/js/socket.js"></script>
-<script type="text/javascript" src="/public/js/app.js"></script>
-<script type="text/javascript" src="/public/js/calendar.js"></script>
-<script type="text/javascript" src="/public/js/init.js"></script>
+<script src="/public/js/commons/app.js"></script>
+<script src="/public/js/commons/calendar.js"></script>
+<script src="/public/js/chat/controller/chat-controller.js"></script>
+<script src="/public/js/post/controller/post-controller.js"></script>
+<script src="/public/js/main/directive/page-button.js"></script>
 <body ng-app="angular-app">
-
 	<header>
 		<nav>
 			<div class="nav-wrapper">
 				<a href="#" class="brand-logo">Burning Web</a>
 				<a href="#" data-activates="mobile-demo" class="button-collapse"><i class="large material-icons">insert_chart</i></a>
 				<ul id="nav-mobile" class="right hide-on-med-and-down">
+					<li><span class="new badge red" data-badge-caption="messages">2</span></li>
+					<li class="message-btn"><a class="dropdown-button" data-activates='message-list'><i class="large material-icons">email</i></a></li>
 					<li><a href="#post">포스팅</a></li>
 					<li><a href="#chat">방명록</a></li>
 					<li><a href="/logout">로그아웃</a></li>
@@ -36,6 +34,14 @@
 					<li><a href="#chat">방명록</a></li>
 					<li><a href="/logout">로그아웃</a></li>
 	      		</ul>
+	      		<div class="message-wrapper">
+					<ul id='message-list' class='dropdown-content'>
+						<li><a href="#!">박현요님이 메시지를 보냈습니다.</a></li>
+						<li><a href="#!">강승윤님이 친구추가 요청을 보냈습니다.</a></li>
+						<li class="divider"></li>
+						<li><a href="#message-box">메시지함</a></li>
+					</ul>
+	      		</div>
 			</div>
 		</nav>
 	</header>
@@ -68,121 +74,23 @@
 		</div>
 	</footer>
 
-
 	<script>
 		$(document).ready(function() {
-			$(".button-collapse").sideNav();
-		});
-
-		var app = angular.module('angular-app', [ 'ngRoute' ]);
-
-		app.config(function($routeProvider, $locationProvider) {
-			$routeProvider.when("/post", {
-				templateUrl : "/public/view/post.html",
-				controller : "postController"
-			}).when("/chat", {
-				templateUrl : "/public/view/test.html",
-				controller: "chatController"
+			$(".button-collapse").sideNav({
+				menuWidth : 180, // Default is 240
+				edge : 'left', // Choose the horizontal origin
+				closeOnClick : true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+				draggable : true
 			});
-		});
-		
-		app.controller('chatController', function($scope){
-			$('body').height($(window).height());
-			init();
-		});
-		
-		app.controller('postController', function($scope, $http) {
-
-			$scope.page = 1;	// 초기 페이지넘버 설정.
-			$scope.size = 5;	// 페이지당 게시글 수 설정.
-			$scope.max = 1;		// 초기 page block 수 설정.
-			
-			$scope.pageButtons = [];
-			$scope.viewAvailable = [];
-			
-			$http({
-				method : 'POST',
-				url : '/rest/member/current'
-			}).success(function(res){
-				$scope.currentMember = res;
-			}).error(function(err){Materialize.toast("사용자 정보를 불러오는데 실패하였습니다.", 2000);})
-
-			$http.get('/rest/post/count').then(function(res){
-				$scope.max = Math.ceil(res.data / $scope.size);
+			$('.dropdown-button').dropdown({
+				inDuration : 300,
+				outDuration : 225,
+				constrain_width : false, // Does not change width of dropdown to that of the activator
+				hover : false, // Activate on hover
+				gutter : 0, // Spacing from edge
+				belowOrigin : true, // Displays dropdown below the button
+				alignment : 'right' // Displays dropdown with edge aligned to the left of button
 			});
-			
-			$scope.getMax = function(max){
-				return new Array(max);
-			};
-			
-			$scope.prev = function(){
-				if($scope.page - 1 <= 0){
-					$scope.page = 1;
-					return;
-				}
-				
-				$scope.pagination($scope.page-1);
-			};
-			
-			$scope.next = function(){
-				if($scope.page + 1 > $scope.max){
-					$scope.page = $scope.max;
-					return;
-				}
-				
-				$scope.pagination($scope.page+1);
-			};
-			
-			$scope.pagination = function(page){
-				$scope.page = page;
-				$scope.viewAvailable = [];	// viewAvailable 초기화.
-				
-				var e = $scope.pageButtons[page-1];
-				
-				$(e).addClass('active');
-				$(e).parent().find('li.page-button').not(e).removeClass('active');
-				
-				$http.get('/rest/post?page='+page).then(function(res){
-					$scope.posts = res.data;
-				});
-			};
-			
-			$scope.pagination(1);
-			
-			$scope.postView = function(id){
-				$scope.viewAvailable[id] ^= true;
-				if(!$scope.viewAvailable[id]) return;
-				$http.get('/rest/post/'+id).then(function(res){
-					$scope.items = [];
-					$scope.items[id] = res.data;
-				});
-			};
-			
-			$scope.postEdit = function(id){
-				Materialize.toast("수정기능은 아직 제공되지 않습니다.", 1000);
-			};
-			
-			$scope.postDelete = function(id){
-				$http({
-					method : 'DELETE',
-					url : '/rest/post/'+id
-				}).success(function(res){
-					Materialize.toast("삭제에 성공하였습니다.", 700);
-					setTimeout(function(){
-						location.reload(true);
-					}, 700);
-				}).error(function(err){Materialize.toast("해당글을 삭제하는데 실패하였습니다.", 1000);})
-			};
-		});
-		
-		app.directive('pageButton', function(){
-			return {
-				restrict: "C",
-				link: function(s, e, a, c){
-					// scope 변수에 해당 directive가 적용된 엘리먼트들을 모두 담는다. 
-					s.$parent.pageButtons.push(e); 	
-				}
-			};
 		});
 	</script>
 </body>

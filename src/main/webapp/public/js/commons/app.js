@@ -1,5 +1,20 @@
 sendEnable = true;
 
+app = angular.module('angular-app', [ 'ngRoute' ]);
+app.config(function($routeProvider, $locationProvider) {
+	$routeProvider
+	.when("/message-box", {
+		templateUrl : "/public/view/message-box.html"
+	})
+	.when("/post", {
+		templateUrl : "/public/view/post.html",
+		controller : "postController"
+	}).when("/chat", {
+		templateUrl : "/public/view/chat.html",
+		controller : "chatController"
+	});
+});
+
 function initBodySize(){
 	$('body').css({
 		'width' : screen.width,
@@ -14,49 +29,6 @@ function addKeyUpEventToSendButton(){
 		}
 	});
 };
-
-function send() {
-	if(!sendEnable){
-		Materialize.toast("연속으로 메시지를 보낼 수 없습니다.", 1500);
-		return;
-	}
-	
-	var message = $('#message').val();
-
-	if(!message || message.trim() === ''){
-		$('#message').val('');
-		$('#message').focus();
-		return;
-	}
-	
-	$.ajax({
-		url : '/rest/chat',
-		type : 'POST',
-		data : {
-			content : message,
-			chatDate : new Date()
-		},
-		success : function(data) {
-			if(data){
-				Materialize.toast(data, 1500);
-				return;
-			}
-			
-			$('#message').val('');
-			$('#message').focus();
-			
-			sock.send(message);
-			sendEnable = false;
-			
-			setTimeout(function(){
-				sendEnable = true;
-			}, 1500);
-		},
-		error : function(err) {
-			console.log(err);
-		}
-	});
-}
 
 function appendDiv(data, date) {
 
