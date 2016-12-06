@@ -1,3 +1,7 @@
+$(document).ready(function(){
+	init();
+});
+
 var chatItemCssOriginal = {
 	'overflow' : 'hidden',
 	'white-space' : 'nowrap',
@@ -15,8 +19,5 @@ var chatItemCssHover = {
 };
 
 function init() {
-	socketInit();
-	
-	//initBodySize();
 	addKeyUpEventToSendButton();
 };
