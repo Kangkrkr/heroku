@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
-<title>불타는 웹 스터디</title>
+<title>Teamk</title>
 <script src="/lib/jquery/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
 <link rel="stylesheet" href="/public/stylesheet/join-page.css">
@@ -44,13 +44,37 @@
 			return false;
 		});
 		
+		var emailLength = $('#email').val().length;
+		var passwordLength = $('#password').val().length;
+		var nameLength = $('#name').val().length;
+		var nicknameLength = $('#nickname').val().length;
+		
+		if(!(emailLength >= 10 && emailLength <= 30)){
+			Materialize.toast('이메일 주소는 10자리 이상, 30자리 이하여야 합니다.', 1200);
+			return;
+		}
+		
+		if(passwordLength < 8){
+			Materialize.toast('비밀번호는 8자리 이상이 되어야합니다.', 1200);
+			return;
+		}
+		
+		if(!(nameLength >= 2 && nameLength <= 6)){
+			Materialize.toast('이름은 최소 2자리에서 최대 6자리여야 합니다.', 1200);
+			return;
+		}
+		
+		if(!(nicknameLength >= 1 && nicknameLength <= 10)){
+			Materialize.toast('별명은 최소 1자리에서 최대 10자리여야 합니다.', 1200);
+			return;
+		}
+		
 		var params = $joinForm.serialize();
 		$.ajax({
 			url : '/rest/member/join',
 			type : 'POST',
 			data : params,
 			success : function(result){
-				console.log(result);
 				if(result){
 					Materialize.toast(result, 1200);
 					setTimeout(function(){
@@ -61,7 +85,6 @@
 			error : function(err){
 				//Materialize.toast(err.responseJSON, 1500);
 				Materialize.toast("가입도중 문제가 발생하였습니다.", 1500);
-				console.log(err);
 			}
 		});
 	});

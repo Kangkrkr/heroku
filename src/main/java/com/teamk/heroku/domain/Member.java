@@ -41,7 +41,7 @@ public class Member {
 	
 	@NotNull
 	@Size(min=10, max=30)
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	private String email;
 	
 	@NotNull

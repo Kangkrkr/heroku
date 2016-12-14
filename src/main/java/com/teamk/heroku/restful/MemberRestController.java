@@ -59,7 +59,7 @@ public class MemberRestController {
 	public ResponseEntity<?> join(@Valid Member member, BindingResult result){
 		if(result.hasErrors()){
 			for(ObjectError e : result.getAllErrors()){
-				System.out.println(e.toString());
+				System.out.println("code : " + e.getCode());
 			}
 			return new ResponseEntity<String>("에러가 발생하였습니다.", HttpStatus.BAD_REQUEST);
 		}
